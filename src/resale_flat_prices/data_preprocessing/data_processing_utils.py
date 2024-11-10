@@ -8,6 +8,13 @@ CURRENT_YEAR = datetime.today().year
   
 
 # Dependent functions for each feature are below.
+# month
+def clean_month(df):
+    df["year"] = df["month"].apply(lambda x: x.split("-")[0])
+    df["month"] = df["month"].apply(lambda x: x.split("-")[1])
+    return df
+
+
 # town
 def town_cleaner(x):
     if x == "ANG MO KIO":
@@ -257,12 +264,13 @@ def age_scaler(x, xmin, xmax):
     return (x - xmin) / (xmax - xmin)
 
 
-def get_age(df, current_year = CURRENT_YEAR):
+def get_age_from_lease_commence_date(df, current_year = CURRENT_YEAR):
     df["age"] = current_year - df["lease_commence_date"]
     return df
 
+
 def clean_lease_commence_date(df, current_year = CURRENT_YEAR):
-    df = get_age(df, current_year)
+    df = get_age_from_lease_commence_date(df, current_year)
 
     # Scale the age to [0, 1]
     min_age = df["age"].min()

@@ -25,9 +25,5 @@ class ResaleFlatData:
             _df = c.df.copy()
             self.df = pd.concat([self.df, _df])
 
-    def process_month(self):
-        self.df["year"] = self.df["month"].apply(lambda x: x.split("-")[0])
-        self.df["month"] = self.df["month"].apply(lambda x: x.split("-")[1])
-
     def get_df(self):
         return self.df

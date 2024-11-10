@@ -1,11 +1,10 @@
 # Clean and perform feature engineering on the loaded resale price DataFrame.
 
 from datetime import datetime
-import numpy as np
 
 from resale_flat_prices.data_preprocessing.data_processing_utils import (
-    get_price_per_sqm, clean_town, clean_flat_model, clean_flat_type, clean_floor_area_sqm, 
-    clean_storey_range, clean_street_name, make_address, get_age
+    clean_month, get_price_per_sqm, clean_town, clean_flat_model, clean_flat_type, clean_floor_area_sqm, 
+    clean_storey_range, clean_street_name, make_address, get_age_from_lease_commence_date
 )
 
 # Fixed constants.
@@ -20,6 +19,7 @@ class DataProcessor:
         return self.df
 
     def process_all_columns(self):
+        self.clean_month()
         self.get_price_per_sqm()
         self.clean_town()
         self.clean_street_name()
@@ -29,6 +29,9 @@ class DataProcessor:
         self.clean_flat_model()
         self.clean_floor_area_sqm()
         self.calculate_age()
+
+    def clean_month(self):
+        self.df = clean_month(self.df)
 
     def get_price_per_sqm(self):
         self.df = get_price_per_sqm(self.df)
@@ -55,4 +58,4 @@ class DataProcessor:
         self.df = clean_floor_area_sqm(self.df)
     
     def calculate_age(self):
-        self.df = get_age(self.df, CURRENT_YEAR)
+        self.df = get_age_from_lease_commence_date(self.df, CURRENT_YEAR)
