@@ -1,3 +1,14 @@
 [build-system]
-requires = ["setuptools", "numpy", "pandas", "matplotlib", "lightgbm", "scikit-learn", "ipykernel", "geopy"]
+requires = [
+    "setuptools", 
+    "numpy", 
+    "pandas", 
+    "matplotlib", 
+    "lightgbm", 
+    "scikit-learn", 
+    "ipykernel", 
+    "geopy", 
+    "h3", 
+    "folium",
+]
 build-backend = "setuptools.build_meta"

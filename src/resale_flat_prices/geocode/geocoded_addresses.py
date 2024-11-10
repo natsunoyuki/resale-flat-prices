@@ -1,5 +1,8 @@
+import time
 import json
+import pandas as pd
 
+# Local imports.
 from resale_flat_prices.geocode.nominatim_geocoder import NominatimGeocoder
 
 
@@ -9,14 +12,17 @@ class GeocodedAddresses:
         self.geocoder = NominatimGeocoder(geocoder_user_agent = geocoder_user_agent)
 
     def to_json(self, output_json_path):
+        """Saves the dict of geocoded addresses to a JSON file."""
         with open(output_json_path, "w") as f:
             json.dump(self.address_dict, f, indent = 4)
     
     def read_json(self, json_path):
+        """Loads a dict of geocoded addresses from a JSON file."""
         with open(json_path, "r") as f:
             self.address_dict = json.load(f)
 
-    def update_geocoded_addresses(self, address_list, force_update = False):
+    def update_geocoded_addresses(self, address_list, force_update = False, sleep = 1):
+        """Updates the dict of geocoded addresses with a list of new addresses."""
         for address in address_list:
             if address not in self.address_dict or (address in self.address_dict and force_update is True):
                 gcd = self.geocoder.geocode(address)
@@ -25,9 +31,27 @@ class GeocodedAddresses:
                     self.address_dict[address]["latitude"] = gcd.latitude
                     self.address_dict[address]["longitude"] = gcd.longitude
                     self.address_dict[address]["address"] = gcd.address
+                else:
+                    print("An error occured with geocoding '{}'...".format(address))
+
+                # Nominatim geocoder only allows 1 geocode query per second.
+                # Enforce a sleep of 1 second to prevent over doing the queries.
+                time.sleep(sleep)
+
+    def to_df(self):
+        df = pd.DataFrame.from_dict(self.address_dict, orient = "index")
+        df = df.reset_index().drop("address", axis = 1)
+        df = df.rename(columns = {"index": "address"})
+        return df
 
     def get_address_dict(self):
+        """Address dict getter."""
         return self.address_dict.copy()
     
     def set_address_dict(self, address_dict):
+        """Address dict setter."""
         self.address_dict = address_dict.copy()
+
+    def get_all_geocoded_addresses(self):
+        """Get all unique geocoded addresses."""
+        return set([k for k in self.address_dict.keys()])

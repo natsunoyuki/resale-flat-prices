@@ -9,6 +9,5 @@ class NominatimGeocoder:
         try:
             gcd = self.geocoder.geocode(address)
         except:
-            print("An error occured with geocoding '{}'...".format(address))
             gcd = None
         return gcd
