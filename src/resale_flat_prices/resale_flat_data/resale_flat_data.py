@@ -13,7 +13,6 @@ class ResaleFlatData:
         self.csv_data_list = []
         self.wanted_columns = wanted_columns
         self.df = pd.DataFrame()
-
         self.data_processor = DataProcessor()
 
     def load_csv_files(self):
@@ -34,4 +33,7 @@ class ResaleFlatData:
         self.df = self.data_processor.get_df()
 
     def get_df(self):
-        return self.df
+        return self.df.copy()
+    
+    def set_df(self, df):
+        self.df = df.copy()
