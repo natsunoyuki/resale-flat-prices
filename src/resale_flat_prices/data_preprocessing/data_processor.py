@@ -1,7 +1,9 @@
 # Clean and perform feature engineering on the loaded resale price DataFrame.
 
 from datetime import datetime
+import pandas as pd
 
+# Local imports.
 from resale_flat_prices.data_preprocessing.data_processing_utils import (
     clean_month, get_price_per_sqm, clean_town, clean_flat_model, clean_flat_type, clean_floor_area_sqm, 
     clean_storey_range, clean_street_name, make_address, get_age_from_lease_commence_date
@@ -12,11 +14,14 @@ CURRENT_YEAR = datetime.today().year
 
 
 class DataProcessor:
-    def __init__(self, df):
-        self.df = df
+    def __init__(self, df = pd.DataFrame()):
+        self.df = df.copy()
+
+    def set_df(self, df):
+        self.df = df.copy()
 
     def get_df(self):
-        return self.df
+        return self.df.copy()
 
     def process_all_columns(self):
         self.clean_month()
