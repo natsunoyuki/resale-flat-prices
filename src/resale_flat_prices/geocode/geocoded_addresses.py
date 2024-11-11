@@ -4,6 +4,7 @@ import pandas as pd
 
 # Local imports.
 from resale_flat_prices.geocode.nominatim_geocoder import NominatimGeocoder
+from resale_flat_prices.geocode.lat_lon_constants import LOCS
 
 
 class GeocodedAddresses:
@@ -37,6 +38,24 @@ class GeocodedAddresses:
                 # Nominatim geocoder only allows 1 geocode query per second.
                 # Enforce a sleep of 1 second to prevent over doing the queries.
                 time.sleep(sleep)
+
+    def verify_geocoded_latitudes_and_longitudes(self, country = "SINGAPORE"):
+        """Checks if all the geocoded latitudes and longitudes fall within the
+        geographical limits of the specified country."""
+        country = LOCS.get(country.upper(), None)
+        assert country is not None
+        
+        lats = country.get("latitude")
+        lons = country.get("longitude")
+
+        problem_addresses = {}
+        for k, v in self.address_dict.items():
+            lat = float(v.get("latitude"))
+            lon = float(v.get("longitude"))
+            if (lat < lats[0] or lat > lats[1]) or (lon < lons[0] or lon > lons[1]):
+                problem_addresses[k] = v.copy()
+
+        return problem_addresses
 
     def to_df(self):
         df = pd.DataFrame.from_dict(self.address_dict, orient = "index")
