@@ -24,6 +24,8 @@ class GeocodedAddresses:
 
     def update_geocoded_addresses(self, address_list, force_update = False, sleep = 1):
         """Updates the dict of geocoded addresses with a list of new addresses."""
+        error_address_list = []
+
         for address in address_list:
             if address not in self.address_dict or (address in self.address_dict and force_update is True):
                 gcd = self.geocoder.geocode(address)
@@ -34,10 +36,13 @@ class GeocodedAddresses:
                     self.address_dict[address]["address"] = gcd.address
                 else:
                     print("An error occured with geocoding '{}'...".format(address))
+                    error_address_list.append(address)
 
                 # Nominatim geocoder only allows 1 geocode query per second.
                 # Enforce a sleep of 1 second to prevent over doing the queries.
                 time.sleep(sleep)
+
+        return error_address_list
 
     def verify_geocoded_latitudes_and_longitudes(self, country = "SINGAPORE"):
         """Checks if all the geocoded latitudes and longitudes fall within the

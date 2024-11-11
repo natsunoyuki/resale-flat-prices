@@ -12,7 +12,7 @@ def latlon_to_h3(df, resolution = 8):
         df: DataFrame
     """
     df["h3"] = df.apply(
-        lambda DF: h3.geo_to_h3(DF["latitude"], DF["longitude"], resolution), 
+        lambda DF: h3.latlng_to_cell(DF["latitude"], DF["longitude"], resolution), 
         axis = 1
     )
     return df
