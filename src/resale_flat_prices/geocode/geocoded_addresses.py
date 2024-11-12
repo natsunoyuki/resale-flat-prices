@@ -22,6 +22,12 @@ class GeocodedAddresses:
         with open(json_path, "r") as f:
             self.address_dict = json.load(f)
 
+        # For some reason, sometimes numericals are saved/loaded as str.
+        # Convert to floating point values.
+        for k in self.address_dict.keys():
+            self.address_dict[k]["latitude"] = float(self.address_dict[k]["latitude"])
+            self.address_dict[k]["longitude"] = float(self.address_dict[k]["longitude"])
+
     def update_geocoded_addresses(self, address_list, force_update = False, sleep = 1):
         """Updates the dict of geocoded addresses with a list of new addresses."""
         error_address_list = []

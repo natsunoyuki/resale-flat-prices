@@ -9,6 +9,7 @@ requires = [
     "ipykernel", 
     "geopy", 
     "h3", 
-    "folium",
+    "geopandas",
+    "contextily",
 ]
 build-backend = "setuptools.build_meta"
