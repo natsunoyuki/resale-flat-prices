@@ -10,6 +10,7 @@ CURRENT_YEAR = datetime.today().year
 # Dependent functions for each feature are below.
 # month
 def clean_month(df):
+    df["year_month"] = df["month"].copy()
     df["year"] = df["month"].apply(lambda x: x.split("-")[0])
     df["month"] = df["month"].apply(lambda x: x.split("-")[1])
     return df

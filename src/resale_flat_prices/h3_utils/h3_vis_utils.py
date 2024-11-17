@@ -1,27 +1,43 @@
 # https://uber.github.io/h3-py/intro.html
 # https://uber.github.io/h3-py/polygon_tutorial.html
-import h3
 import matplotlib.pyplot as plt
-import geopandas
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 import contextily as cx
 
 
-def plot_df(df, column = None, ax = None, figsize = [8, 8], epsg = 3857):
-    "Plot based on the `geometry` column of a GeoPandas dataframe"
+def plot_df(
+    df, 
+    column = None, 
+    epsg = 3857,
+    figsize = [8, 8], 
+    alpha = 0.5,
+    categorical = False,
+    legend = True,
+    legend_kwds = {},
+    edgecolor = None,
+    divider_kwds = {"position": "right", "size": "5%", "pad": 0.1},
+):
+    """Plot based on the `geometry` column of a GeoPandas dataframe."""
     df = df.copy()
     df = df.to_crs(epsg = epsg)
 
-    if ax is None:
-        fig, ax = plt.subplots(figsize = figsize)
+    fig, ax = plt.subplots(figsize = figsize)
+
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes(**divider_kwds)
 
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
 
     df.plot(
         ax = ax,
-        alpha = 0.5, edgecolor = 'k',
-        column = column, categorical = True,
-        legend = True, legend_kwds = {'loc': 'upper left'},
+        alpha = alpha,
+        column = column, 
+        categorical = categorical,
+        legend = legend, 
+        legend_kwds = legend_kwds,
+        edgecolor = edgecolor,
+        cax = cax,
     )
 
     cx.add_basemap(ax, crs = df.crs, source = cx.providers.CartoDB.Positron)
