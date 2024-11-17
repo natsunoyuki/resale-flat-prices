@@ -5,10 +5,12 @@
 import time
 import json
 import pandas as pd
+import geopandas
 
 # Local imports.
 from resale_flat_prices.geocode.nominatim_geocoder import NominatimGeocoder
 from resale_flat_prices.geocode.lat_lon_constants import LOCS
+from resale_flat_prices.h3_utils.h3_utils import latlon_to_h3, h3_to_geometry
 
 
 class GeocodedAddresses:
@@ -72,11 +74,18 @@ class GeocodedAddresses:
 
         return problem_addresses
 
-    def to_df(self):
-        """Outputs the address dict as a GeoDataFrame."""
+    def address_dict_to_df(self):
+        """Outputs the address dict as a DataFrame."""
         df = pd.DataFrame.from_dict(self.address_dict, orient = "index")
         df = df.reset_index().drop("address", axis = 1)
         df = df.rename(columns = {"index": "address"})
+        return df
+
+    def make_h3_geometries(self, resolution = 8, crs = "EPSG:4326"):
+        """Processes the latitudes and longitudes to H3 cell geometries as a GeoDataFrame."""
+        df = geopandas.GeoDataFrame(self.address_dict_to_df())
+        df = latlon_to_h3(df, resolution)
+        df = h3_to_geometry(df, crs)
         return df
 
     def get_address_dict(self):
