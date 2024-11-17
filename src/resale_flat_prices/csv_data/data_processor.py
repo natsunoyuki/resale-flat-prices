@@ -1,10 +1,10 @@
-# Clean and perform feature engineering on the loaded resale price DataFrame.
+# Clean and perform feature engineering on the loaded resale price GeoDataFrame.
 
 from datetime import datetime
-import pandas as pd
+import geopandas
 
 # Local imports.
-from resale_flat_prices.data_preprocessing.data_processing_utils import (
+from resale_flat_prices.csv_data.data_processing_utils import (
     clean_month, get_price_per_sqm, clean_town, clean_flat_model, clean_flat_type, clean_floor_area_sqm, 
     clean_storey_range, clean_street_name, make_address, get_age_from_lease_commence_date
 )
@@ -14,7 +14,7 @@ CURRENT_YEAR = datetime.today().year
 
 
 class DataProcessor:
-    def __init__(self, df = pd.DataFrame()):
+    def __init__(self, df = geopandas.GeoDataFrame()):
         self.df = df.copy()
 
     def set_df(self, df):

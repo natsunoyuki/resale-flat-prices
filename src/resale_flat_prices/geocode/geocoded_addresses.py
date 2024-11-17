@@ -1,3 +1,7 @@
+# Tool for geocoding addresses to latitudes and longitudes.
+# Also utilizes the h3_py library to convert latitudes and longitudes
+# to H3 hexagonal cells.
+
 import time
 import json
 import pandas as pd
@@ -69,6 +73,7 @@ class GeocodedAddresses:
         return problem_addresses
 
     def to_df(self):
+        """Outputs the address dict as a GeoDataFrame."""
         df = pd.DataFrame.from_dict(self.address_dict, orient = "index")
         df = df.reset_index().drop("address", axis = 1)
         df = df.rename(columns = {"index": "address"})

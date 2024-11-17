@@ -16,3 +16,13 @@ def latlon_to_h3(df, resolution = 8):
         axis = 1
     )
     return df
+
+
+def h3_to_geometry(df, crs = 'EPSG:4326'):
+    """
+    Creates and sets geometry from h3 cells.
+    """
+    cells = df["h3"].values
+    shapes = [h3.cells_to_h3shape([cell]) for cell in cells]
+    df.set_geometry(shapes, inplace = True, crs = crs)
+    return df

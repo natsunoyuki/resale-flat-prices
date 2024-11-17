@@ -1,3 +1,6 @@
+# This class handles the loading of raw tabular data from individual
+# CSV files published by the source.
+
 import pandas as pd
 
 COLUMNS = [
@@ -13,7 +16,7 @@ COLUMNS = [
     "resale_price"
 ]
 
-class CsvData:
+class CsvFileData:
     def __init__(self, file_name, wanted_columns = None):
         self.file_name = file_name
         self.wanted_columns = wanted_columns
