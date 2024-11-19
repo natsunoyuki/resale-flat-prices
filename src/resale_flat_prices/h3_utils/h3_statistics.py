@@ -4,6 +4,16 @@ import h3
 import pandas as pd
 
 
+def cell_monthly_median_price( 
+    df, 
+    h3_index, 
+    date_column = "year_month", 
+    price_column = "price_per_sqm",
+    h3_column_name = "h3"
+):
+    return
+
+
 def cell_grid_ring_monthly_median_price(
     df, 
     h3_index, 
