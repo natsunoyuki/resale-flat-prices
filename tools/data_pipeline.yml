@@ -6,6 +6,8 @@ csv_data_dir: "data/ResaleFlatPrices/"
 # Directory containing the processed data (e.g. geocoded addresses etc.)
 processed_data_dir: "data/processed_data/"
 
-# H3 cell resolution.
-h3_resolution: 9
-crs: "EPSG:4326"
+# Pre-existing JSON file containing the geocoded addresses.
+geocoded_addresses_json_file: "geocoded_addresses.json"
+
+# Output file name of the merged processed data.
+output_csv_file: "resale-flat-prices.csv.zip"

@@ -22,22 +22,22 @@ if __name__ == "__main__":
     # Data directories.
     csv_data_dir = Path(config.get("csv_data_dir", main_dir / "data/ResaleFlatPrices/"))
     processed_data_dir = Path(config.get("processed_data_dir", main_dir / "data/processed_data/"))
-    # H3 cell resolution.
-    h3_resolution = config.get("h3_resolution", 9)
-    # CRS.
-    crs = config.get("crs", "EPSG:4326")
+    geocoded_addresses_json_file = config.get("geocoded_addresses_json_file", "geocoded_addresses.json")
+    output_csv_file = config.get("output_csv_file", "resale-flat-prices.csv.zip")
 
     # Load and process raw CSV files published on https://data.gov.sg/collections/189/view.
+    print("Loading CSV data from {}.".format(csv_data_dir))
     csv_data = CsvData(csv_data_dir, wanted_columns = "default")
     csv_data.load_csv_files()
     csv_data.compile_csv_data()
     csv_data.process_csv_data()
-    print("Loaded and compiled CSV data into shape {}.".format(csv_data.df.shape))
+    print("    Loaded and compiled CSV data into shape {}.".format(csv_data.df.shape))
 
     # Load geocoded addresses.
+    print("Loading geocoded addresses from {}.".format(processed_data_dir / geocoded_addresses_json_file))
     geocoded_addresses = GeocodedAddresses()
-    geocoded_addresses.read_json(processed_data_dir / "geocoded_addresses.json")
-    print("Loaded {} existing geocoded addresses.".format(len(geocoded_addresses.address_dict)))
+    geocoded_addresses.read_json(processed_data_dir / geocoded_addresses_json_file)
+    print("    Loaded {} existing geocoded addresses.".format(len(geocoded_addresses.address_dict)))
 
     # Check for new addresses to be geocoded.
     all_unique_addresses = set(csv_data.df["address"].unique())
@@ -47,9 +47,9 @@ if __name__ == "__main__":
     missing_addresses = all_unique_addresses.difference(all_unique_geocoded_addresses)
     print("Found {} new addresses to be geocoded in loaded CSV data.".format(len(missing_addresses)))
     if len(missing_addresses) > 0:
-        print("Updating {} new geocoded addresses.".format(len(missing_addresses)))
+        print("    Updating {} new geocoded addresses.".format(len(missing_addresses)))
         geocoded_addresses.update_geocoded_addresses(missing_addresses)
-        geocoded_addresses.to_json(processed_data_dir / "geocoded_addresses.json")
+        geocoded_addresses.to_json(processed_data_dir / geocoded_addresses_json_file)
 
     # Check for problematic geocodes.
     problem_addresses = geocoded_addresses.verify_geocoded_latitudes_and_longitudes(country = "SINGAPORE")
@@ -58,12 +58,17 @@ if __name__ == "__main__":
             len(problem_addresses))
         )
         for i, p in enumerate(problem_addresses):
-            print("{:05d}: {}.".format(i, p))
+            print("    {:05d}: {}.".format(i, p))
 
-    # H3 cell creation from latitudes and longitudes.
-    right_df = geocoded_addresses.make_h3_geometries(resolution = h3_resolution, crs = crs)
-    left_df = csv_data.get_df()
-
-    df = pd.merge(left = left_df, right = right_df, left_on = "address", right_on = "address", how = "left")
-    df = geopandas.GeoDataFrame(df, crs = right_df.crs)
-    unique_cells = df[["h3", "geometry"]].drop_duplicates()
+    # Merge geocoded addresses with the CSV data.
+    geocode_df = geocoded_addresses.address_dict_to_df()
+    csv_df = csv_data.get_df()
+    processed_data_df = pd.merge(left=csv_df, right=geocode_df, left_on="address", right_on="address", how="left")
+    
+    # Output the merged processed data to disk.
+    if output_csv_file[-3:] == "zip":
+        compression = "zip"
+    else:
+        compression = None
+    print("Saving processed data to {}.".format(processed_data_dir / output_csv_file))
+    processed_data_df.to_csv(processed_data_dir / output_csv_file, index = False, compression = compression)
