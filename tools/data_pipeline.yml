@@ -1,0 +1,11 @@
+# Configurations for data_pipeline.py.
+
+# Directory containing the raw CSV files.
+csv_data_dir: "data/ResaleFlatPrices/"
+
+# Directory containing the processed data (e.g. geocoded addresses etc.)
+processed_data_dir: "data/processed_data/"
+
+# H3 cell resolution.
+h3_resolution: 9
+crs: "EPSG:4326"
