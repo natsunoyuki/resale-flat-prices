@@ -7,36 +7,38 @@ import contextily as cx
 
 def plot_df(
     df, 
-    column = None, 
-    epsg = 3857,
-    figsize = [8, 8], 
-    alpha = 0.5,
-    categorical = False,
-    legend = True,
-    legend_kwds = {},
-    edgecolor = None,
-    divider_kwds = {"position": "right", "size": "5%", "pad": 0.1},
+    plot_kwds = {
+        "figsize": [8, 8],
+        "xlim": None,
+        "ylim": None,
+        "alpha": 0.5,
+        "categorical": False,
+        "column": None,
+        "legend": True,
+        "legend_kwds": {},
+        "edgecolor": None,
+        "divider_kwds": {"position": "right", "size": "5%", "pad": 0.1},
+    },
 ):
-    """Plot based on the `geometry` column of a GeoPandas dataframe."""
+    """Plot the `geometry` column of a GeoDataFrame."""
     df = df.copy()
-    df = df.to_crs(epsg = epsg)
 
-    fig, ax = plt.subplots(figsize = figsize)
-
+    fig, ax = plt.subplots(figsize = plot_kwds.get("figsize"))
     divider = make_axes_locatable(ax)
-    cax = divider.append_axes(**divider_kwds)
+    cax = divider.append_axes(**plot_kwds.get("divider_kwds"))
 
-    ax.get_xaxis().set_visible(False)
-    ax.get_yaxis().set_visible(False)
-
+    if plot_kwds.get("xlim", None) is not None:
+        ax.set_xlim(plot_kwds.get("xlim"))
+    if plot_kwds.get("ylim", None) is not None:
+        ax.set_ylim(plot_kwds.get("ylim"))  
     df.plot(
         ax = ax,
-        alpha = alpha,
-        column = column, 
-        categorical = categorical,
-        legend = legend, 
-        legend_kwds = legend_kwds,
-        edgecolor = edgecolor,
+        alpha = plot_kwds.get("alpha"),
+        column = plot_kwds.get("column"), 
+        categorical = plot_kwds.get("categorical"),
+        legend = plot_kwds.get("legend"), 
+        legend_kwds = plot_kwds.get("legend_kwds"),
+        edgecolor = plot_kwds.get("edgecolor"),
         cax = cax,
     )
 

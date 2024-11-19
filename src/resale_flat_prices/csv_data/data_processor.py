@@ -5,8 +5,8 @@ import geopandas
 
 # Local imports.
 from resale_flat_prices.csv_data.data_processing_utils import (
-    clean_month, get_price_per_sqm, clean_town, clean_flat_model, clean_flat_type, clean_floor_area_sqm, 
-    clean_storey_range, clean_street_name, make_address, get_age_from_lease_commence_date
+    clean_month, get_price_per_sqft, get_price_per_sqm, clean_town, clean_flat_model, clean_flat_type, 
+    clean_floor_area_sqm, clean_storey_range, clean_street_name, make_address, get_age_from_lease_commence_date
 )
 
 # Fixed constants.
@@ -26,6 +26,7 @@ class DataProcessor:
     def process_all_columns(self):
         self.clean_month()
         self.get_price_per_sqm()
+        self.get_price_per_sqft()
         self.clean_town()
         self.clean_street_name()
         self.make_address()
@@ -37,6 +38,9 @@ class DataProcessor:
 
     def clean_month(self):
         self.df = clean_month(self.df)
+
+    def get_price_per_sqft(self):
+        self.df = get_price_per_sqft(self.df)
 
     def get_price_per_sqm(self):
         self.df = get_price_per_sqm(self.df)

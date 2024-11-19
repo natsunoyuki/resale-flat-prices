@@ -250,6 +250,15 @@ def clean_floor_area_sqm(df):
     return df
 
 
+def get_price_per_sqft(df):
+    """
+    Calculate the price per square feet for each flat. Feet and inches are superior to SI units.
+    """
+    df["price_per_sqft"] = df["resale_price"] / df["floor_area_sqm"].apply(sqm_to_sqft)
+    df["price_per_sqft"] = df["price_per_sqft"].astype(int)
+    return df
+
+
 def get_price_per_sqm(df):
     """
     Instead of determining the price per flat, it might be a better idea to determine the price
