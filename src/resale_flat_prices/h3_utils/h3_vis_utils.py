@@ -16,6 +16,7 @@ def plot_df(
         "column": None,
         "legend": True,
         "legend_kwds": {},
+        "cmap": 'viridis',
         "edgecolor": None,
         "divider_kwds": {"position": "right", "size": "5%", "pad": 0.1},
     },
@@ -38,6 +39,7 @@ def plot_df(
         categorical = plot_kwds.get("categorical"),
         legend = plot_kwds.get("legend"), 
         legend_kwds = plot_kwds.get("legend_kwds"),
+        cmap = plot_kwds.get("cmap"),
         edgecolor = plot_kwds.get("edgecolor"),
         cax = cax,
     )

@@ -11,6 +11,18 @@ def cell_monthly_median_price(
     price_column = "price_per_sqm",
     h3_column_name = "h3"
 ):
+    """
+    Calculates the monthly median price of all properties for each H3 cell.
+    Inputs
+        df: DataFrame
+        h3_index: string
+        date_column: string (optional)
+        price_column: string (optional)
+        h3_column_name: string (optional)
+    Outputs
+        median_price: DataFrame
+    """
+    
     return
 
 
