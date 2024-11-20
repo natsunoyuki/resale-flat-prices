@@ -4,9 +4,8 @@ import h3
 import pandas as pd
 
 
-def cell_monthly_median_price( 
+def monthly_median_price( 
     df, 
-    h3_index, 
     date_column = "year_month", 
     price_column = "price_per_sqm",
     h3_column_name = "h3"
@@ -15,15 +14,15 @@ def cell_monthly_median_price(
     Calculates the monthly median price of all properties for each H3 cell.
     Inputs
         df: DataFrame
-        h3_index: string
         date_column: string (optional)
         price_column: string (optional)
         h3_column_name: string (optional)
     Outputs
         median_price: DataFrame
     """
-    
-    return
+    cols = [date_column, h3_column_name, price_column]
+    grpby_cols = [date_column, h3_column_name]
+    return df[cols].groupby(grpby_cols).median().reset_index()
 
 
 def cell_grid_ring_monthly_median_price(
