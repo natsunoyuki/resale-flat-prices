@@ -1,3 +1,5 @@
+<div align = "center"><img src = "assets/resale-flat-prices.jpg" width = "640"></div>
+
 # Resale Flat Prices
 Analysis and predictive modelling using resale flat prices from https://data.gov.sg/collections/189/view.
 
