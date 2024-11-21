@@ -1,6 +1,7 @@
 # Data
 data/
 sandbox/
+outputs/
 
 # MacOS
 .DS_Store
