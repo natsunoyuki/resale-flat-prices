@@ -11,6 +11,7 @@ def plot_df(
         "figsize": [8, 8],
         "xlim": None,
         "ylim": None,
+        "title": None,
         "alpha": 0.5,
         "categorical": False,
         "column": None,
@@ -32,6 +33,8 @@ def plot_df(
         ax.set_xlim(plot_kwds.get("xlim"))
     if plot_kwds.get("ylim", None) is not None:
         ax.set_ylim(plot_kwds.get("ylim"))  
+    if plot_kwds.get("title", None) is not None:
+        ax.set_title(plot_kwds.get("title"))
     df.plot(
         ax = ax,
         alpha = plot_kwds.get("alpha"),
