@@ -6,14 +6,15 @@ import geopandas
 # Local imports.
 from resale_flat_prices.csv_data.data_processing_utils import (
     clean_month, get_price_per_sqft, get_price_per_sqm, clean_town, clean_flat_model, clean_flat_type, 
-    clean_floor_area_sqm, clean_storey_range, clean_street_name, make_address, get_age_from_lease_commence_date
+    clean_floor_area_sqm, clean_storey_range, clean_street_name, make_address, get_age_from_lease_commence_date,
+    clean_rent_approval_date
 )
 
 # Fixed constants.
 CURRENT_YEAR = datetime.today().year
 
 
-class DataProcessor:
+class ResaleDataProcessor:
     def __init__(self, df = geopandas.GeoDataFrame()):
         self.df = df.copy()
 
@@ -68,3 +69,18 @@ class DataProcessor:
     
     def calculate_age(self):
         self.df = get_age_from_lease_commence_date(self.df, CURRENT_YEAR)
+
+
+class RentDataProcessor(ResaleDataProcessor):
+    def __init__(self, df = geopandas.GeoDataFrame()):
+        super().__init__(df = df)
+
+    def process_all_columns(self):
+        self.clean_rent_approval_date
+        self.clean_town()
+        self.clean_street_name()
+        self.make_address()
+        self.clean_flat_type()
+
+    def clean_rent_approval_date(self):
+        self.df = clean_rent_approval_date(self.df)

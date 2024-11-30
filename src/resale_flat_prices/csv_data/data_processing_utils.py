@@ -7,7 +7,7 @@ import numpy as np
 CURRENT_YEAR = datetime.today().year
   
 
-# Dependent functions for each feature are below.
+# Dependent functions for each resale price data feature.
 # month
 def clean_month(df):
     df["year_month"] = df["month"].copy()
@@ -171,20 +171,20 @@ def make_address(df):
 
 # flat_type
 def flat_type_formatter(x):
-    if x == "1 ROOM":
-        res = 1/7
-    elif x == "2 ROOM":
-        res = 2/7
-    elif x == "3 ROOM":
-        res = 3/7
-    elif x == "4 ROOM":
-        res = 4/7
-    elif x == "5 ROOM":
-        res = 5/7
-    elif x == "EXECUTIVE":
-        res = 6/7
+    if x == "1 ROOM" or x == "1-ROOM":
+        res = 1
+    elif x == "2 ROOM" or x == "2-ROOM":
+        res = 2
+    elif x == "3 ROOM" or x == "3-ROOM":
+        res = 3
+    elif x == "4 ROOM" or x == "4-ROOM":
+        res = 4
+    elif x == "5 ROOM" or x == "5-ROOM":
+        res = 5
+    elif x == "EXECUTIVE" or x == "EXECUTIVE":
+        res = 6
     elif x == "MULTI-GENERATION" or x == "MULTI GENERATION":
-        res = 7/7
+        res = 7
     else:
         res = -999999 # Error value.
     return res
@@ -250,6 +250,7 @@ def clean_floor_area_sqm(df):
     return df
 
 
+# resale_price
 def get_price_per_sqft(df):
     """
     Calculate the price per square feet for each flat. Feet and inches are superior to SI units.
@@ -287,4 +288,12 @@ def clean_lease_commence_date(df, current_year = CURRENT_YEAR):
     max_age = df["age"].max()
 
     df["age"] = df["age"].apply(age_scaler, args = (min_age, max_age))
+    return df
+
+
+# Rent data feature cleaning functions.
+def clean_rent_approval_date(df):
+    df["month"] = df["rent_approval_date"].copy()
+    df["year"] = df["month"].apply(lambda x: int(x.split("-")[0]))
+    df["month"] = df["month"].apply(lambda x: int(x.split("-")[1]))
     return df

@@ -5,10 +5,11 @@ import yaml
 
 from pathlib import Path
 import pandas as pd
-import geopandas
+
 
 # Local imports.
-from resale_flat_prices.csv_data.csv_data import CsvData
+from resale_flat_prices.csv_data.resale_csv_data import ResaleCsvData
+from resale_flat_prices.csv_data.rent_csv_data import RentCsvData
 from resale_flat_prices.geocode.geocoded_addresses import GeocodedAddresses
 
 
@@ -20,18 +21,35 @@ if __name__ == "__main__":
         config = yaml.safe_load(f)
 
     # Data directories.
-    csv_data_dir = Path(config.get("csv_data_dir", main_dir / "data/ResaleFlatPrices/"))
+    csv_data_dir = Path(config.get("resale_data_csv_data_dir", main_dir / "data/ResaleFlatPrices/"))
+
+    rent_data_csv_file = config.get("rent_data_csv_file", None)
+    if rent_data_csv_file is not None:
+        rent_data_csv_file = Path(rent_data_csv_file)
+
     processed_data_dir = Path(config.get("processed_data_dir", main_dir / "data/processed_data/"))
     geocoded_addresses_json_file = config.get("geocoded_addresses_json_file", "geocoded_addresses.json")
+    
     output_csv_file = config.get("output_csv_file", "resale-flat-prices.csv.zip")
+    output_rent_csv_file = config.get("output_rent_csv_file", "rent-prices.csv.zip")
 
-    # Load and process raw CSV files published on https://data.gov.sg/collections/189/view.
-    print("Loading CSV data from {}.".format(csv_data_dir))
-    csv_data = CsvData(csv_data_dir, wanted_columns = "default")
+
+    # Load and process resale flat prices CSV files published on https://data.gov.sg/collections/189/view.
+    print("Loading resale flat prices CSV data from {}.".format(csv_data_dir))
+    csv_data = ResaleCsvData(csv_data_dir, wanted_columns = "default")
     csv_data.load_csv_files()
     csv_data.compile_csv_data()
     csv_data.process_csv_data()
-    print("    Loaded and compiled CSV data into shape {}.".format(csv_data.df.shape))
+    print("    Loaded and compiled resale flat prices CSV data into shape {}.".format(csv_data.df.shape))
+
+    # Optional: load and process rent CSV data published on:
+    # https://data.gov.sg/datasets/d_c9f57187485a850908655db0e8cfe651/view
+    if rent_data_csv_file is not None:
+        print("Loading rent data CSV data from {}.".format(rent_data_csv_file))
+        rent_csv_data = RentCsvData(rent_data_csv_file)
+        rent_csv_data.load_csv_file()
+        rent_csv_data.process_csv_data()
+        print("    Loaded and compiled rent CSV data into shape {}.".format(rent_csv_data.df.shape))
 
     # Load geocoded addresses.
     print("Loading geocoded addresses from {}.".format(processed_data_dir / geocoded_addresses_json_file))
@@ -60,15 +78,29 @@ if __name__ == "__main__":
         for i, p in enumerate(problem_addresses):
             print("    {:05d}: {}.".format(i, p))
 
-    # Merge geocoded addresses with the CSV data.
+    # Merge geocoded addresses with the resale flat prices CSV data.
     geocode_df = geocoded_addresses.address_dict_to_df()
     csv_df = csv_data.get_df()
     processed_data_df = pd.merge(left=csv_df, right=geocode_df, left_on="address", right_on="address", how="left")
+
+    # Merge geocoded addresses with the rent CSV data.
+    rent_csv_df = rent_csv_data.get_df()
+    processed_rent_data_df = pd.merge(left=rent_csv_df, right=geocode_df, left_on="address", right_on="address", how="left")
     
-    # Output the merged processed data to disk.
+    # Output the merged processed resale flat prices data to disk.
+    # TODO create an output function.
     if output_csv_file[-3:] == "zip":
         compression = "zip"
     else:
         compression = None
-    print("Saving processed data to {}.".format(processed_data_dir / output_csv_file))
+    print("Saving processed resale flat prices data to {}.".format(processed_data_dir / output_csv_file))
     processed_data_df.to_csv(processed_data_dir / output_csv_file, index = False, compression = compression)
+
+    # Optional: output the merged processed rent data to disk:
+    if rent_data_csv_file is not None:
+        if "rent-prices.csv.zip"[-3:] == "zip":
+            compression = "zip"
+        else:
+            compression = None
+        print("Saving processed rent data to {}.".format(processed_data_dir / output_rent_csv_file))
+        processed_rent_data_df.to_csv(processed_data_dir / output_rent_csv_file, index = False, compression = compression)

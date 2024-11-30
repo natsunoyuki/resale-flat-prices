@@ -16,7 +16,7 @@ COLUMNS = [
     "resale_price"
 ]
 
-class CsvFileData:
+class ResaleCsvFileData:
     def __init__(self, file_name, wanted_columns = None):
         self.file_name = file_name
         self.wanted_columns = wanted_columns

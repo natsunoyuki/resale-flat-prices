@@ -1,7 +1,10 @@
 # Configurations for data_pipeline.py.
 
-# Directory containing the raw CSV files.
-csv_data_dir: "data/ResaleFlatPrices/"
+# Directory containing the resale flat prices CSV files.
+resale_data_csv_data_dir: "data/ResaleFlatPrices/"
+
+# CSV file containing the rent CSV file. Optional. Set to null if not needed.
+rent_data_csv_file: "data/RentingOutofFlats/RentingOutofFlats2024CSV.csv"
 
 # Directory containing the processed data (e.g. geocoded addresses etc.)
 processed_data_dir: "data/processed_data/"
@@ -9,5 +12,8 @@ processed_data_dir: "data/processed_data/"
 # Pre-existing JSON file containing the geocoded addresses.
 geocoded_addresses_json_file: "geocoded_addresses.json"
 
-# Output file name of the merged processed data.
+# Output file name of the merged processed resale flat prices data.
 output_csv_file: "resale-flat-prices.csv.zip"
+
+# Output file name of the merged processed rent prices data. Optional. 
+output_rent_csv_file: "rent-prices.csv.zip"

@@ -7,11 +7,11 @@ import pandas as pd
 import geopandas
 
 # Local imports.
-from resale_flat_prices.csv_data.csv_file_data import CsvFileData
-from resale_flat_prices.csv_data.data_processor import DataProcessor
+from resale_flat_prices.csv_data.resale_csv_file_data import ResaleCsvFileData
+from resale_flat_prices.csv_data.data_processor import ResaleDataProcessor
 
 
-class CsvData:
+class ResaleCsvData:
     def __init__(self, data_dir: Path, wanted_columns = None):
         self.data_dir = data_dir
         self.csv_file_names = []
@@ -20,7 +20,7 @@ class CsvData:
         self.wanted_columns = wanted_columns
         self.df = geopandas.GeoDataFrame()
 
-        self.data_processor = DataProcessor()
+        self.data_processor = ResaleDataProcessor()
 
     def load_csv_files(self, data_dir = None):
         if data_dir is None:
@@ -28,7 +28,7 @@ class CsvData:
         """Loads raw CSV files published by source."""
         for f in data_dir.iterdir():
             if f.suffix == ".csv":
-                csv_data = CsvFileData(file_name = f, wanted_columns = self.wanted_columns)
+                csv_data = ResaleCsvFileData(file_name = f, wanted_columns = self.wanted_columns)
                 csv_data.load_csv_file()
                 self.csv_data_list.append(csv_data)
 
