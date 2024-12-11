@@ -296,4 +296,5 @@ def clean_rent_approval_date(df):
     df["month"] = df["rent_approval_date"].copy()
     df["year"] = df["month"].apply(lambda x: int(x.split("-")[0]))
     df["month"] = df["month"].apply(lambda x: int(x.split("-")[1]))
+    df = df.rename(columns = {"rent_approval_date": "year_month"})
     return df

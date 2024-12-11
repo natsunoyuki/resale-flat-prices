@@ -76,7 +76,7 @@ class RentDataProcessor(ResaleDataProcessor):
         super().__init__(df = df)
 
     def process_all_columns(self):
-        self.clean_rent_approval_date
+        self.clean_rent_approval_date()
         self.clean_town()
         self.clean_street_name()
         self.make_address()
