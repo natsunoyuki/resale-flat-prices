@@ -1,7 +1,10 @@
 <div align = "center"><img src = "assets/resale-flat-prices.jpg" width = "640"></div>
 
 # Resale Flat Prices
-Analysis and predictive modelling using resale flat prices from https://data.gov.sg/collections/189/view.
+Analysis and predictive modelling using resale flat prices.
+
+1. Resale flat prices: https://data.gov.sg/collections/189/view.
+2. Flat rent prices: https://data.gov.sg/datasets/d_c9f57187485a850908655db0e8cfe651/view
 
 This repository is currently a work in progress.
 
@@ -20,7 +23,7 @@ pip install -e .
 
 # Usage
 
-## Data Pipeline
+## Raw Data Processing Pipeline
 Before any form of analysis or visualization can be performed, raw data must be cleaned and processed, and combined with other useful data. The script `tools/data_pipeline.py` performs this important function.
 
 Place the downloaded raw CSV files in the directory `data/ResaleFlatPrices`. Additionally, if pre-existing geocoded addresses already exist, they should be placed in the JSON file `data/processed_data/geocoded_addresses.json`.
