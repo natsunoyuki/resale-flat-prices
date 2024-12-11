@@ -4,6 +4,17 @@ import h3
 import pandas as pd
 
 
+def monthly_max_price(
+    df, 
+    date_column = "year_month", 
+    price_column = "price_per_sqm",
+    h3_column_name = "h3"
+):
+    cols = [date_column, h3_column_name, price_column]
+    grpby_cols = [date_column, h3_column_name]
+    return df[cols].groupby(grpby_cols).max().reset_index()
+
+
 def monthly_median_price( 
     df, 
     date_column = "year_month", 
