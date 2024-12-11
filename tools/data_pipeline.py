@@ -40,7 +40,7 @@ if __name__ == "__main__":
     csv_data.load_csv_files()
     csv_data.compile_csv_data()
     csv_data.process_csv_data()
-    print("    Loaded and compiled resale flat prices CSV data into shape {}.".format(csv_data.df.shape))
+    print("    Loaded and compiled resale flat prices CSV data with shape {}.".format(csv_data.df.shape))
 
     # Optional: load and process rent CSV data published on:
     # https://data.gov.sg/datasets/d_c9f57187485a850908655db0e8cfe651/view
@@ -49,7 +49,7 @@ if __name__ == "__main__":
         rent_csv_data = RentCsvData(rent_data_csv_file)
         rent_csv_data.load_csv_file()
         rent_csv_data.process_csv_data()
-        print("    Loaded and compiled rent CSV data into shape {}.".format(rent_csv_data.df.shape))
+        print("    Loaded and compiled rent CSV data with shape {}.".format(rent_csv_data.df.shape))
 
     # Load geocoded addresses.
     print("Loading geocoded addresses from {}.".format(processed_data_dir / geocoded_addresses_json_file))
@@ -59,15 +59,17 @@ if __name__ == "__main__":
 
     # Check for new addresses to be geocoded.
     all_unique_addresses = set(csv_data.df["address"].unique())
+    if rent_data_csv_file is not None:
+        all_unique_addresses.update(set(rent_csv_data.df["address"].unique()))
     all_unique_geocoded_addresses = geocoded_addresses.get_all_geocoded_addresses()
 
     # Update new geocoded addresses.
     missing_addresses = all_unique_addresses.difference(all_unique_geocoded_addresses)
     print("Found {} new addresses to be geocoded in loaded CSV data.".format(len(missing_addresses)))
     if len(missing_addresses) > 0:
-        print("    Updating {} new geocoded addresses.".format(len(missing_addresses)))
-        geocoded_addresses.update_geocoded_addresses(missing_addresses)
+        geocoded_addresses.update_geocoded_addresses(missing_addresses, country_codes = ["sg"])
         geocoded_addresses.to_json(processed_data_dir / geocoded_addresses_json_file)
+        print("    Updated {} new geocoded addresses.".format(len(missing_addresses)))
 
     # Check for problematic geocodes.
     problem_addresses = geocoded_addresses.verify_geocoded_latitudes_and_longitudes(country = "SINGAPORE")

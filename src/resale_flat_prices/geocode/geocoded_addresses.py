@@ -13,6 +13,12 @@ from resale_flat_prices.geocode.lat_lon_constants import LOCS
 from resale_flat_prices.h3_utils.h3_utils import latlon_to_h3, h3_to_geometry
 
 
+GEOCODING_COUNTRY_CODES = {
+    "SINGAPORE" : "sg",
+    "JAPAN" : "jp",
+}
+
+
 class GeocodedAddresses:
     def __init__(self, geocoder_user_agent = "resale_flat_price_nominatim"):
         self.address_dict = {}
@@ -34,13 +40,13 @@ class GeocodedAddresses:
             self.address_dict[k]["latitude"] = float(self.address_dict[k]["latitude"])
             self.address_dict[k]["longitude"] = float(self.address_dict[k]["longitude"])
 
-    def update_geocoded_addresses(self, address_list, force_update = False, sleep = 1):
+    def update_geocoded_addresses(self, address_list, country_codes = None, force_update = False, sleep = 1):
         """Updates the dict of geocoded addresses with a list of new addresses."""
         error_address_list = []
 
         for address in address_list:
             if address not in self.address_dict or (address in self.address_dict and force_update is True):
-                gcd = self.geocoder.geocode(address)
+                gcd = self.geocoder.geocode(address, country_codes = country_codes)
                 if gcd is not None:
                     self.address_dict[address] = {}
                     self.address_dict[address]["latitude"] = gcd.latitude
