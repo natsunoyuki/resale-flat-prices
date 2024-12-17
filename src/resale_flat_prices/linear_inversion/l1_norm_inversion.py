@@ -1,6 +1,9 @@
 import numpy as np
 from scipy.optimize import linprog
 
+# Local imports.
+from resale_flat_prices.linear_inversion.least_squares import least_squares
+
 
 def l1_norm_inversion(G, d, sd = None):
     """
@@ -29,7 +32,7 @@ def l1_norm_inversion(G, d, sd = None):
 
     # 1. Create f containing the inverse data std:
     f = np.zeros(L)
-    f[2*M:2*M+N] = 1 / sd
+    f[2*M:2*M+N] = 1.0 / sd
 
     # Make Aeq and beq for the equality constraints:
     Aeq = np.zeros([2*N, L])
