@@ -27,7 +27,7 @@ class LinearInversion:
         self.m = None
         if self.error_type == "l2":
             self.m = self.model(G, y)
-        elif self.error_type == "l2":
+        elif self.error_type == "l1":
             self.m = self.model(G, y, sd)
         
         return self.m
