@@ -1,6 +1,7 @@
 [build-system]
 requires = [
     "setuptools", 
+    "natsort",
     "PyYAML",
     "numpy", 
     "pandas", 
