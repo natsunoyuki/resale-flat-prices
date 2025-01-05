@@ -1,0 +1,8 @@
+# Configurations for price_index.yml.
+
+# Directory containing the processed data (e.g. geocoded addresses etc.)
+processed_data_dir: "data/processed_data/"
+
+resale_data_csv_file: "resale-flat-prices.csv.zip"
+
+rent_data_csv_file: "rent-prices.csv.zip"
