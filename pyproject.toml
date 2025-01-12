@@ -6,7 +6,6 @@ requires = [
     "numpy", 
     "pandas", 
     "matplotlib", 
-    "lightgbm", 
     "scikit-learn", 
     "ipykernel", 
     "geopy", 
