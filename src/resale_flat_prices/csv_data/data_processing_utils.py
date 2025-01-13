@@ -13,6 +13,9 @@ def clean_month(df):
     df["year_month"] = df["month"].copy()
     df["year"] = df["month"].apply(lambda x: int(x.split("-")[0]))
     df["month"] = df["month"].apply(lambda x: int(x.split("-")[1]))
+    df["datetime"] = df[["year", "month"]].apply(
+        lambda DF: np.datetime64("{}-{:02d}".format(DF["year"], DF["month"]), "M"), axis=1
+    )
     return df
 
 
@@ -297,4 +300,7 @@ def clean_rent_approval_date(df):
     df["year"] = df["month"].apply(lambda x: int(x.split("-")[0]))
     df["month"] = df["month"].apply(lambda x: int(x.split("-")[1]))
     df = df.rename(columns = {"rent_approval_date": "year_month"})
+    df["datetime"] = df[["year", "month"]].apply(
+        lambda DF: np.datetime64("{}-{:02d}".format(DF["year"], DF["month"]), "M"), axis=1
+    )
     return df
