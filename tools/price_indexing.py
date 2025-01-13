@@ -24,13 +24,13 @@ if __name__ == "__main__":
     # Data directories and files.
     processed_data_dir = main_dir / config.get("processed_data_dir", "data/processed_data/")
 
-    resale_data_csv_file = processed_data_dir /  config.get("resale_data_csv_file", "resale-flat-prices.csv.zip")
+    resale_data_csv_file = config.get("resale_data_csv_file", "resale-flat-prices.csv.zip")
 
     output_resale_data_csv_file = config.get("output_resale_data_csv_file", "resale-flat-prices-indexed.csv.zip")
 
     rent_data_csv_file = config.get("rent_data_csv_file", None)
     if rent_data_csv_file is not None:
-        rent_data_csv_file = processed_data_dir / Path(rent_data_csv_file)
+        rent_data_csv_file = Path(rent_data_csv_file)
         output_rent_data_csv_file = config.get("output_rent_data_csv_file", "rent-prices.csv-indexed.zip")
 
     price_column = config.get("price_column", "price_per_sqft")
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         rent_data.make_point_geometries(crs = "EPSG:4326")
 
         min_year = int(max([resale_flat_data.df["year"].min(), rent_data.df["year"].min()]))
-        min_datetime = min(min_datetime, rent_data.df["datetime"].min())
+        min_datetime = max(min_datetime, rent_data.df["datetime"].min())
         max_datetime = max(max_datetime, rent_data.df["datetime"].max())
 
         rent_data.df = rent_data.df[rent_data.df["year"] >= min_year]
