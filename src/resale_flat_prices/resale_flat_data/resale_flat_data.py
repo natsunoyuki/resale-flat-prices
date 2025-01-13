@@ -7,7 +7,7 @@ from resale_flat_prices.h3_utils.h3_utils import latlon_to_h3, h3_to_geometry
 
 
 COLUMNS = [
-    'year', 'month', 'year_month',
+    'year', 'month', 'year_month', "datetime",
     'town', 'town_cleaned', 'block', 'street_name', 'street_name_cleaned', 'address',
     'storey_range', 'storey_range_num', 'flat_type', 'flat_type_num', 'flat_model', 'floor_area_sqm', 'floor_area_norm', 
     'lease_commence_date', 'age',
