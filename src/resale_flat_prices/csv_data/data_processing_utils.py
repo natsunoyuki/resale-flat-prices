@@ -21,6 +21,11 @@ def clean_month(df):
 
 # town
 def town_cleaner(x):
+    if x == "CENTRAL":
+        x = "CENTRAL AREA"
+    return x
+
+def town_categorizer(x):
     if x == "ANG MO KIO":
         x = 0
     elif x == "BEDOK":
@@ -81,7 +86,8 @@ def town_cleaner(x):
 
 
 def clean_town(df):
-    df["town_cleaned"] = df["town"].apply(town_cleaner)
+    df["town"] = df["town"].apply(town_cleaner)
+    df["town_cleaned"] = df["town"].apply(town_categorizer)
     return df
 
 
@@ -173,6 +179,9 @@ def make_address(df):
 
 
 # flat_type
+def flat_type_cleaner(x):
+    return x.replace("-", " ")
+
 def flat_type_formatter(x):
     if x == "1 ROOM" or x == "1-ROOM":
         res = 1
@@ -200,6 +209,7 @@ def clean_flat_type(df):
     Outputs
         df: DataFrame
     """
+    df["flat_type"] = df["flat_type"].apply(flat_type_cleaner)
     df["flat_type_num"] = df["flat_type"].apply(flat_type_formatter)
     return df
     
@@ -248,8 +258,8 @@ def floor_area_scaler(x, xmin, xmax):
 def clean_floor_area_sqm(df):
     min_floor_area = df["floor_area_sqm"].min()
     max_floor_area = df["floor_area_sqm"].max()
-    df["floor_area_norm"] = df["floor_area_sqm"].apply(floor_area_scaler, 
-                                                       args = (min_floor_area, max_floor_area))
+    df["floor_area_norm"] = df["floor_area_sqm"].apply(
+        floor_area_scaler, args = (min_floor_area, max_floor_area))
     return df
 
 
