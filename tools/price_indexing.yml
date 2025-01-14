@@ -20,5 +20,6 @@ future_months: 1
 n_estimators: 50
 max_depth: 2
 max_depth_low_data: 1
+min_samples_leaf: 2
 low_data_threshold: 10
 criterion: "absolute_error"

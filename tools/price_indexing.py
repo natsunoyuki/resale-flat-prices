@@ -132,6 +132,7 @@ if __name__ == "__main__":
     max_depth_low_data = config.get("max_depth_low_data", 1)
     low_data_threshold = config.get("low_data_threshold", 10)
     criterion = config.get("criterion", "absolute_error")
+    min_samples_leaf = config.get("min_samples_leaf", 2)
 
     models = {}
     y_preds = {}
@@ -141,11 +142,17 @@ if __name__ == "__main__":
         X = dfs[k]["X"].values.reshape(-1, 1)
         if len(y) >= low_data_threshold:
             models[k] = RandomForestRegressor(
-                n_estimators=n_estimators, max_depth=max_depth, criterion=criterion
+                n_estimators=n_estimators, 
+                max_depth=max_depth, 
+                criterion=criterion, 
+                min_samples_leaf=min_samples_leaf,
             )
         else:
             models[k] = RandomForestRegressor(
-                n_estimators=n_estimators, max_depth=max_depth_low_data, criterion=criterion
+                n_estimators=n_estimators, 
+                max_depth=max_depth_low_data, 
+                criterion=criterion,
+                min_samples_leaf=min_samples_leaf,
             )
             
         models[k].fit(X, y)
@@ -167,11 +174,17 @@ if __name__ == "__main__":
             X = dfs_rent[k]["X"].values.reshape(-1, 1)
             if len(y) >= low_data_threshold:
                 models_rent[k] = RandomForestRegressor(
-                    n_estimators=n_estimators, max_depth=max_depth, criterion=criterion
+                    n_estimators=n_estimators, 
+                    max_depth=max_depth, 
+                    criterion=criterion, 
+                    min_samples_leaf=min_samples_leaf,
                 )
             else:
                 models_rent[k] = RandomForestRegressor(
-                    n_estimators=n_estimators, max_depth=max_depth_low_data, criterion=criterion
+                    n_estimators=n_estimators, 
+                    max_depth=max_depth_low_data, 
+                    criterion=criterion, 
+                    min_samples_leaf=min_samples_leaf,
                 )
             models_rent[k].fit(X, y)
             y_pred = models_rent[k].predict(X)
