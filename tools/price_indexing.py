@@ -40,7 +40,9 @@ if __name__ == "__main__":
     # Resale flat data.
     resale_flat_data = ResaleFlatData(processed_data_dir / resale_data_csv_file)
     resale_flat_data.read_csv()
-    resale_flat_data.df["datetime"] = resale_flat_data.df["datetime"].apply(lambda x: np.datetime64(x))
+    resale_flat_data.df["datetime"] = resale_flat_data.df["datetime"].apply(
+        lambda x: np.datetime64(x).astype('datetime64[M]')
+    )
     resale_flat_data.df = resale_flat_data.df.sort_values(["datetime", "town"])
 
     unique_street_names = list(resale_flat_data.df["street_name_cleaned"].unique())
@@ -56,7 +58,9 @@ if __name__ == "__main__":
     if rent_data_csv_file is not None:
         rent_data = RentPricesData(processed_data_dir / rent_data_csv_file)
         rent_data.read_csv()
-        rent_data.df["datetime"] = rent_data.df["datetime"].apply(lambda x: np.datetime64(x))
+        rent_data.df["datetime"] = rent_data.df["datetime"].apply(
+            lambda x: np.datetime64(x).astype('datetime64[M]')
+        )
         rent_data.df = rent_data.df.sort_values(["datetime", "town"])
 
         unique_street_names = unique_street_names + list(rent_data.df["street_name_cleaned"].unique())

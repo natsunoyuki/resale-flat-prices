@@ -67,6 +67,8 @@ if __name__ == "__main__":
     missing_addresses = all_unique_addresses.difference(all_unique_geocoded_addresses)
     print("Found {} new addresses to be geocoded in loaded CSV data.".format(len(missing_addresses)))
     if len(missing_addresses) > 0:
+        for ma in missing_addresses:
+            print("    {}".format(ma))
         geocoded_addresses.update_geocoded_addresses(missing_addresses, country_codes = ["sg"])
         geocoded_addresses.to_json(processed_data_dir / geocoded_addresses_json_file)
         print("    Updated {} new geocoded addresses.".format(len(missing_addresses)))

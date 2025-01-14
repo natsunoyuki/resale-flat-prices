@@ -17,7 +17,7 @@ rent_column: "monthly_rent"
 
 future_months: 1
 
-n_estimators: 10
+n_estimators: 50
 max_depth: 2
 max_depth_low_data: 1
 low_data_threshold: 10
