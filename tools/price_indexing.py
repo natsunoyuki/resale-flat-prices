@@ -43,8 +43,7 @@ if __name__ == "__main__":
     resale_flat_data.df["datetime"] = resale_flat_data.df["datetime"].apply(lambda x: np.datetime64(x))
     resale_flat_data.df = resale_flat_data.df.sort_values(["datetime", "town"])
 
-    unique_towns = resale_flat_data.df["town"].unique()
-    unique_street_names = resale_flat_data.df["street_name_cleaned"].unique()
+    unique_street_names = list(resale_flat_data.df["street_name_cleaned"].unique())
     resale_flat_data.df["flat_type"] = resale_flat_data.df["flat_type"].apply(lambda x: x.replace("-", " "))
     resale_flat_data.make_point_geometries(crs = "EPSG:4326")
 
@@ -60,6 +59,7 @@ if __name__ == "__main__":
         rent_data.df["datetime"] = rent_data.df["datetime"].apply(lambda x: np.datetime64(x))
         rent_data.df = rent_data.df.sort_values(["datetime", "town"])
 
+        unique_street_names = unique_street_names + list(rent_data.df["street_name_cleaned"].unique())
         rent_data.df["flat_type"] = rent_data.df["flat_type"].apply(lambda x: x.replace("-", " "))
         rent_data.make_point_geometries(crs = "EPSG:4326")
 

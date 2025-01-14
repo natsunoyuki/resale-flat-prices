@@ -9,7 +9,7 @@ rent_data_csv_file: "rent-prices.csv.zip"
 
 output_resale_data_csv_file: "resale-flat-prices-indexed.csv.zip"
 
-output_rent_data_csv_file: "rent-prices.csv-indexed.zip"
+output_rent_data_csv_file: "rent-prices-indexed.csv.zip"
 
 price_column: "price_per_sqft"
 

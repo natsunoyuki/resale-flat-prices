@@ -17,7 +17,7 @@ COLUMNS = [
 
 
 class ResaleFlatData:
-    def __init__(self, file_name, wanted_columns = "default"):
+    def __init__(self, file_name, wanted_columns = None):
         self.file_name = file_name
         self.df = geopandas.GeoDataFrame()
 
