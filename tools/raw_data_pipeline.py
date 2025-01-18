@@ -13,11 +13,14 @@ from resale_flat_prices.csv_data.rent_csv_data import RentCsvData
 from resale_flat_prices.geocode.geocoded_addresses import GeocodedAddresses
 
 
+CONFIG_FILE = "raw_data_pipeline.yml"
+
+
 if __name__ == "__main__":
     tools_dir = Path(__file__).parent
     main_dir = tools_dir.parent
 
-    with open(tools_dir / "data_pipeline.yml", "r") as f:
+    with open(tools_dir / CONFIG_FILE, "r") as f:
         config = yaml.safe_load(f)
 
     # Data directories.

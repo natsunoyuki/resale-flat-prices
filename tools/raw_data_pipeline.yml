@@ -1,4 +1,4 @@
-# Configurations for data_pipeline.py.
+# Configurations for raw_data_pipeline.py.
 
 # Directory containing the resale flat prices CSV files.
 resale_data_csv_data_dir: "data/ResaleFlatPrices/"
