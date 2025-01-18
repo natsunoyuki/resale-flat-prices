@@ -5,6 +5,8 @@ requires = [
     "PyYAML",
     "numpy", 
     "pandas", 
+    "openpyxl",
+    "lxml",
     "matplotlib", 
     "scikit-learn", 
     "ipykernel", 
