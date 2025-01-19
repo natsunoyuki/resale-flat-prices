@@ -51,8 +51,8 @@ class HDBBuildingInfo:
         self.df = self.hdb_existing_building.df.copy()
         self.df = self.df.merge(self.road_name_road_code.df.copy(), on="street_code", how="left")
 
-        self.df["address"] = self.df[["block", "street_name_cleaned"]].apply(
-            lambda DF: DF["block"] + " " + DF["street_name_cleaned"], axis=1,
+        self.df["address"] = self.df[["block", "street_name"]].apply(
+            lambda DF: DF["block"] + " " + DF["street_name"], axis=1,
         )
         self.df["address_postal_code"] = self.df[["address", "postal_code"]].apply(
             lambda DF: DF["address"] + " " + COUNTRY + " " + DF["postal_code"], axis=1,

@@ -87,7 +87,7 @@ def town_categorizer(x):
 
 def clean_town(df):
     df["town"] = df["town"].apply(town_cleaner)
-    df["town_cleaned"] = df["town"].apply(town_categorizer)
+    # df["town_cleaned"] = df["town"].apply(town_categorizer)
     return df
 
 
@@ -161,20 +161,20 @@ def clean_street_name(df):
     Outputs
         df: DataFrame
     """
-    df["street_name_cleaned"] = df["street_name"].apply(street_name_cleaner)
+    df["street_name"] = df["street_name"].apply(street_name_cleaner)
     return df
 
 
 # address
 def make_address(df):
     """
-    "address" is formed from "block" and "street_name_cleaned".
+    "address" is formed from "block" and "street_name".
     Inputs
         df: DataFrame
     Outputs
         df: DataFrame
     """
-    df["address"] = df["block"] + " " + df["street_name_cleaned"]
+    df["address"] = df["block"] + " " + df["street_name"]
     return df
 
 
@@ -210,7 +210,7 @@ def clean_flat_type(df):
         df: DataFrame
     """
     df["flat_type"] = df["flat_type"].apply(flat_type_cleaner)
-    df["flat_type_num"] = df["flat_type"].apply(flat_type_formatter)
+    # df["flat_type_num"] = df["flat_type"].apply(flat_type_formatter)
     return df
     
 

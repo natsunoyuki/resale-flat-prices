@@ -6,7 +6,7 @@ import pandas as pd
 
 
 WANTED_RAW_COLS = ["Unnamed: 4", "Unnamed: 8"]
-COLUMN_MAP = {"Domain Value": "street_code", "Description": "street_name_cleaned"}
+COLUMN_MAP = {"Domain Value": "street_code", "Description": "street_name"}
 
 
 class RoadNameRoadCodeExcel:

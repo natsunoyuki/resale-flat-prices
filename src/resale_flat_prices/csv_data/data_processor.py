@@ -26,16 +26,16 @@ class ResaleDataProcessor:
 
     def process_all_columns(self):
         self.clean_month()
-        self.get_price_per_sqm()
+        #self.get_price_per_sqm()
         self.get_price_per_sqft()
         self.clean_town()
         self.clean_street_name()
         self.make_address()
         self.clean_flat_type()
-        self.clean_storey_range()
+        #self.clean_storey_range()
         self.clean_flat_model()
-        self.clean_floor_area_sqm()
-        self.calculate_age()
+        #self.clean_floor_area_sqm()
+        #self.calculate_age()
 
     def clean_month(self):
         self.df = clean_month(self.df)

@@ -9,11 +9,14 @@ rent_data_csv_file: "data/RentingOutofFlats/RentingOutofFlats2024CSV.csv"
 # Directory containing the processed data (e.g. geocoded addresses etc.)
 processed_data_dir: "data/processed_data/"
 
-# Pre-existing JSON file containing the geocoded addresses.
-geocoded_addresses_json_file: "geocoded_addresses.json"
+# Pre-existing JSON file containing the geocoded HDB addresses and building information.
+hdb_addresses_json_file: "hdb_addresses.json"
 
 # Output file name of the merged processed resale flat prices data.
-output_csv_file: "resale-flat-prices.csv.zip"
+output_resale_geojson_file: "resale-flat-prices.json"
 
 # Output file name of the merged processed rent prices data. Optional. 
-output_rent_csv_file: "rent-prices.csv.zip"
+output_rent_geojson_file: "rent-prices.csv.json"
+
+# Reduce output file size by converting polygons to points.
+reduce_output_file_size: True
