@@ -1,0 +1,19 @@
+# Configurations for hdb_building_info.py.
+
+# Directory containing the road name road code Excel file.
+road_name_road_code_data_dir: "data/RoadNameRoadCode/"
+
+# Excel file containing the road name and road code data.
+road_name_road_code_excel_file: "road_name_road_code_jan2024.xlsx"
+
+# Directory containing the HDB existing building geojson file.
+hdb_existing_building_data_dir: "data/HDBExistingBuilding"
+
+# Geojson file containing the HDB existing building data.
+hdb_existing_building_geojson_file: "HDBExistingBuilding.geojson"
+
+# Directory containing the processed data (e.g. geocoded addresses etc.)
+processed_data_dir: "data/processed_data/"
+
+# (Pre-made) GEOJSON file containing the geocoded addresses.
+hdb_addresses_json_file: "hdb_addresses.json"
