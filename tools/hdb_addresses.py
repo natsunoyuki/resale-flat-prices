@@ -62,6 +62,7 @@ if __name__ == "__main__":
     # Load the pre-existing GEOJSON file containing geocoded addresses.
     print("Loading geocoded HDB addresses from {}.".format(processed_data_dir / hdb_addresses_json_file))
     hdb_addresses_df = geopandas.read_file(processed_data_dir / hdb_addresses_json_file)
+    hdb_addresses_df["geocoded_address"] = hdb_addresses_df["geocoded_address"].apply(lambda x: x.upper())
     print("Loaded geocoded HDB addresses with shape: {}.".format(hdb_addresses_df.shape))
 
     # Combine both pieces of information together by overwriting the geocoded addresses.
