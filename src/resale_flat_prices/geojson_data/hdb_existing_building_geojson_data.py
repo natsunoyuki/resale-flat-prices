@@ -27,10 +27,10 @@ class HDBExistingBuildingGeojson:
 
         df["block"] = _Description_df.apply(lambda x: x.get("BLK_NO", None))
         df["street_code"] = _Description_df.apply(lambda x: x.get("ST_COD", None))
-        df["entity_id"] = _Description_df.apply(lambda x: x.get("ENTITYID", None))
+        #df["entity_id"] = _Description_df.apply(lambda x: x.get("ENTITYID", None))
         df["postal_code"] = _Description_df.apply(lambda x: x.get("POSTAL_COD", None))
         df["inc_crc"] = _Description_df.apply(lambda x: x.get("INC_CRC", None))
-        df["fmel_upd_d"] = _Description_df.apply(lambda x: x.get("FMEL_UPD_D", None))
+        #df["fmel_upd_d"] = _Description_df.apply(lambda x: x.get("FMEL_UPD_D", None))
 
         df.drop(WANTED_RAW_COLS[0], axis=1, inplace=True)
 
