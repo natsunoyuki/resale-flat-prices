@@ -33,10 +33,10 @@ if __name__ == "__main__":
         rent_data_csv_file = Path(rent_data_csv_file)
 
     processed_data_dir = Path(config.get("processed_data_dir", main_dir / "data/processed_data/"))
-    hdb_addresses_json_file = config.get("hdb_addresses_json_file", "hdb_addresses.json")
+    hdb_addresses_json_file = Path(config.get("hdb_addresses_json_file", "hdb_addresses.json"))
     
-    output_resale_geojson_file = config.get("output_resale_geojson_file", "resale-flat-prices.json")
-    output_rent_geojson_file = config.get("output_rent_geojson_file", "rent-prices.csv.json")
+    output_resale_geojson_file = Path(config.get("output_resale_geojson_file", "resale-flat-prices.json"))
+    output_rent_geojson_file = Path(config.get("output_rent_geojson_file", "rent-prices.csv.json"))
 
     reduce_output_file_size = config.get("reduce_output_file_size", True)
 
@@ -118,16 +118,20 @@ if __name__ == "__main__":
     # Output the merged processed resale flat prices data to disk.
     out_path = processed_data_dir / output_resale_geojson_file
     print("Saving processed resale flat prices data to {}.".format(out_path))
-    if output_resale_geojson_file[-3:] == "zip":
+    if output_resale_geojson_file.suffix == ".zip":
         processed_data_df.to_csv(out_path, index=False, compression="zip")
-    else:
+    elif output_resale_geojson_file.suffix == ".json":
         processed_data_df.to_file(out_path, driver="GeoJSON")
+    elif output_resale_geojson_file.suffix == ".parquet":
+        processed_data_df.to_parquet(out_path, index=False, compression="gzip")
 
     # Optional: output the merged processed rent data to disk:
     if rent_data_csv_file is not None:
         out_path = processed_data_dir / output_rent_geojson_file
         print("Saving processed rent data to {}.".format(out_path))
-        if output_rent_geojson_file[-3:] == "zip":
+        if output_rent_geojson_file.suffix == ".zip":
             processed_rent_data_df.to_csv(out_path, index=False, compression="zip")
-        else:
+        elif output_rent_geojson_file.suffix == ".json":
             processed_rent_data_df.to_file(out_path, driver="GeoJSON")
+        elif output_rent_geojson_file.suffix == ".parquet":
+            processed_rent_data_df.to_parquet(out_path, index=False, compression="gzip")
