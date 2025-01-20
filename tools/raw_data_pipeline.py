@@ -25,7 +25,7 @@ if __name__ == "__main__":
         config = yaml.safe_load(f)
 
 
-    # Data directories and file names.
+    # Load user configurations.
     csv_data_dir = Path(config.get("resale_data_csv_data_dir", main_dir / "data/ResaleFlatPrices/"))
 
     rent_data_csv_file = config.get("rent_data_csv_file", None)
@@ -35,10 +35,12 @@ if __name__ == "__main__":
     processed_data_dir = Path(config.get("processed_data_dir", main_dir / "data/processed_data/"))
     hdb_addresses_json_file = Path(config.get("hdb_addresses_json_file", "hdb_addresses.json"))
     
-    output_resale_geojson_file = Path(config.get("output_resale_geojson_file", "resale-flat-prices.json"))
-    output_rent_geojson_file = Path(config.get("output_rent_geojson_file", "rent-prices.csv.json"))
+    output_resale_flat_prices_file = Path(config.get("output_resale_flat_prices_file", "resale-flat-prices.parquet"))
+    output_rent_prices_file = Path(config.get("output_rent_prices_file", "rent-prices.parquet"))
 
-    reduce_output_file_size = config.get("reduce_output_file_size", True)
+    convert_polygons_to_centroids = config.get("convert_polygons_to_centroids", True)
+
+    parquet_compression = config.get("parquet_compression", "brotli")
 
 
     # Load and process resale flat prices CSV files published on https://data.gov.sg/collections/189/view.
@@ -100,7 +102,7 @@ if __name__ == "__main__":
     processed_data_df = geopandas.GeoDataFrame(processed_data_df)
     processed_data_df.crs = geocode_df.crs
     
-    if reduce_output_file_size is True:
+    if convert_polygons_to_centroids is True:
         processed_data_df["geometry"] = processed_data_df["geometry"].apply(lambda x: x.centroid)
 
     # Merge geocoded addresses with the rent CSV data.
@@ -111,27 +113,27 @@ if __name__ == "__main__":
         processed_rent_data_df = geopandas.GeoDataFrame(processed_rent_data_df)
         processed_rent_data_df.crs = geocode_df.crs
 
-        if reduce_output_file_size is True:
+        if convert_polygons_to_centroids is True:
             processed_rent_data_df["geometry"] = processed_rent_data_df["geometry"].apply(lambda x: x.centroid)
 
 
     # Output the merged processed resale flat prices data to disk.
-    out_path = processed_data_dir / output_resale_geojson_file
+    out_path = processed_data_dir / output_resale_flat_prices_file
     print("Saving processed resale flat prices data to {}.".format(out_path))
-    if output_resale_geojson_file.suffix == ".zip":
+    if out_path.suffix == ".zip":
         processed_data_df.to_csv(out_path, index=False, compression="zip")
-    elif output_resale_geojson_file.suffix == ".json":
+    elif out_path.suffix == ".json":
         processed_data_df.to_file(out_path, driver="GeoJSON")
-    elif output_resale_geojson_file.suffix == ".parquet":
-        processed_data_df.to_parquet(out_path, index=False, compression="gzip")
+    elif out_path.suffix == ".parquet":
+        processed_data_df.to_parquet(out_path, index=False, compression=parquet_compression)
 
     # Optional: output the merged processed rent data to disk:
     if rent_data_csv_file is not None:
-        out_path = processed_data_dir / output_rent_geojson_file
+        out_path = processed_data_dir / output_rent_prices_file
         print("Saving processed rent data to {}.".format(out_path))
-        if output_rent_geojson_file.suffix == ".zip":
+        if out_path.suffix == ".zip":
             processed_rent_data_df.to_csv(out_path, index=False, compression="zip")
-        elif output_rent_geojson_file.suffix == ".json":
+        elif out_path.suffix == ".json":
             processed_rent_data_df.to_file(out_path, driver="GeoJSON")
-        elif output_rent_geojson_file.suffix == ".parquet":
-            processed_rent_data_df.to_parquet(out_path, index=False, compression="gzip")
+        elif out_path.suffix == ".parquet":
+            processed_rent_data_df.to_parquet(out_path, index=False, compression=parquet_compression)
