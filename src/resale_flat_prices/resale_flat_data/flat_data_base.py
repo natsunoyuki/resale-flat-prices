@@ -1,6 +1,8 @@
 # Base class for both resale flat prices and rent prices data.
 import pandas as pd
 import geopandas
+import numpy as np
+
 
 # Local imports.
 from resale_flat_prices.h3_utils.h3_utils import latlon_to_h3, h3_to_geometry
@@ -20,6 +22,7 @@ class FlatDataBase:
 
         self.df = geopandas.read_parquet(file_name)
         self.set_wanted_columns()
+        self.format_datetime()
 
 
     def read_json(self, file_name = None):
@@ -29,6 +32,7 @@ class FlatDataBase:
 
         self.df = geopandas.read_file(file_name)
         self.set_wanted_columns()
+        self.format_datetime()
 
 
     def read_csv(self, file_name = None):
@@ -39,6 +43,7 @@ class FlatDataBase:
         self.df = pd.read_csv(file_name)
         self.df = geopandas.GeoDataFrame(self.df)
         self.set_wanted_columns()
+        self.format_datetime()
 
 
     def set_wanted_columns(self, wanted_columns = None):
@@ -47,6 +52,11 @@ class FlatDataBase:
 
         if wanted_columns is not None:
             self.df = self.df[wanted_columns]
+
+
+    def format_datetime(self, format = 'datetime64[M]'):
+        if "datetime" in self.df.columns:
+            self.df["datetime"] = self.df["datetime"].apply(lambda x: np.datetime64(x).astype(format))
 
 
     def make_h3_geometries(self, resolution = 8, crs = "EPSG:4326"):

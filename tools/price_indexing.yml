@@ -3,13 +3,17 @@
 # Directory containing the processed data (e.g. geocoded addresses etc.)
 processed_data_dir: "data/processed_data/"
 
-resale_data_csv_file: "resale-flat-prices.csv.zip"
+# Input file name of the merged processed resale flat prices data.
+resale_flat_prices_file: "resale-flat-prices.parquet"
 
-rent_data_csv_file: "rent-prices.csv.zip"
+# Input file name of the merged processed rent prices data. Optional. 
+rent_prices_file: "rent-prices.parquet"
 
-output_resale_data_csv_file: "resale-flat-prices-indexed.csv.zip"
+# Output file name of the indexed resale prices data.
+indexed_resale_prices_file: "resale-flat-prices-indexed.parquet"
 
-output_rent_data_csv_file: "rent-prices-indexed.csv.zip"
+# Output file name of the indexed rent prices data.
+indexed_rent_data_file: "rent-prices-indexed.parquet"
 
 price_column: "price_per_sqft"
 
