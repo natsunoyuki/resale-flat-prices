@@ -10,12 +10,17 @@ CURRENT_YEAR = datetime.today().year
 # Dependent functions for each resale price data feature.
 # month
 def clean_month(df):
-    df["year_month"] = df["month"].copy()
-    df["year"] = df["month"].apply(lambda x: int(x.split("-")[0]))
-    df["month"] = df["month"].apply(lambda x: int(x.split("-")[1]))
-    df["datetime"] = df[["year", "month"]].apply(
-        lambda DF: np.datetime64("{}-{:02d}".format(DF["year"], DF["month"]), "M"), axis=1
+    df["datetime"] = df["month"].apply(
+        lambda x: np.datetime64(
+            "{}-{:02d}".format(int(x.split("-")[0]), int(x.split("-")[1]))
+        ),
     )
+    #df["year_month"] = df["month"].copy()
+    #df["year"] = df["month"].apply(lambda x: int(x.split("-")[0]))
+    #df["month"] = df["month"].apply(lambda x: int(x.split("-")[1]))
+    #df["datetime"] = df[["year", "month"]].apply(
+    #    lambda DF: np.datetime64("{}-{:02d}".format(DF["year"], DF["month"]), "M"), axis=1
+    #)
     return df
 
 
@@ -306,11 +311,17 @@ def clean_lease_commence_date(df, current_year = CURRENT_YEAR):
 
 # Rent data feature cleaning functions.
 def clean_rent_approval_date(df):
-    df["month"] = df["rent_approval_date"].copy()
-    df["year"] = df["month"].apply(lambda x: int(x.split("-")[0]))
-    df["month"] = df["month"].apply(lambda x: int(x.split("-")[1]))
-    df = df.rename(columns = {"rent_approval_date": "year_month"})
-    df["datetime"] = df[["year", "month"]].apply(
-        lambda DF: np.datetime64("{}-{:02d}".format(DF["year"], DF["month"]), "M"), axis=1
+    df = df.rename(columns={"rent_approval_date": "month"})
+    df["datetime"] = df["month"].apply(
+        lambda x: np.datetime64(
+            "{}-{:02d}".format(int(x.split("-")[0]), int(x.split("-")[1]))
+        ),
     )
+    #df["month"] = df["rent_approval_date"].copy()
+    #df["year"] = df["month"].apply(lambda x: int(x.split("-")[0]))
+    #df["month"] = df["month"].apply(lambda x: int(x.split("-")[1]))
+    #df = df.rename(columns = {"rent_approval_date": "year_month"})
+    #df["datetime"] = df[["year", "month"]].apply(
+    #    lambda DF: np.datetime64("{}-{:02d}".format(DF["year"], DF["month"]), "M"), axis=1
+    #)
     return df
