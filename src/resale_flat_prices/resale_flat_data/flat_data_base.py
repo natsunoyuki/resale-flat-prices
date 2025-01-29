@@ -5,7 +5,7 @@ import numpy as np
 
 
 # Local imports.
-from resale_flat_prices.h3_utils.h3_utils import latlon_to_h3, h3_to_geometry
+from resale_flat_prices.h3_utils.h3_utils import point_to_h3, h3_to_geometry
 
 
 class FlatDataBase:
@@ -66,7 +66,7 @@ class FlatDataBase:
         else:
             df = self.df.copy()
 
-        df = latlon_to_h3(df, resolution)
+        df = point_to_h3(df, resolution)
         df = h3_to_geometry(df, crs)
         self.df = df
 
