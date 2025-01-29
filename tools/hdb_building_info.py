@@ -8,13 +8,10 @@ import geopandas
 import pandas as pd
 
 
-#from resale_flat_prices.excel_data.road_name_road_code_excel_data import RoadNameRoadCodeExcel
-#from resale_flat_prices.geojson_data.hdb_existing_building_geojson_data import HDBExistingBuildingGeojson
 from resale_flat_prices.hdb_building_info.hdb_building_info import HDBBuildingInfo
 
 
-CONFIG_FILE = "hdb_addresses.yml"
-
+CONFIG_FILE = "hdb_building_info.yml"
 
 if __name__ == "__main__":
     tools_dir = Path(__file__).parent
@@ -40,8 +37,8 @@ if __name__ == "__main__":
     hdb_addresses_json_file = config.get("hdb_addresses_json_file", "hdb_addresses.json")
 
 
-    # Load and process the road name road code Excel data and the HDB existing building information, and
-    # combine them.
+    # Load and process the road name road code Excel data and the HDB existing building information, 
+    # and combine them.
     print("Loading the following HDB building and road name information:")
     print("i. Road name road code information from {}.".format(
         road_name_road_code_data_dir / road_name_road_code_excel_file))
@@ -52,8 +49,11 @@ if __name__ == "__main__":
         hdb_existing_building_data_dir / hdb_existing_building_geojson_file
     )
 
+    # List of columns to keep from the loaded information.
+    wanted_cols = ["geometry", "address", "address_postal_code", "latitude", "longitude"]
+
     hdb_building_info.load_data()
-    hdb_building_info_df = hdb_building_info.df[["geometry", "address", "address_postal_code", "latitude", "longitude"]]
+    hdb_building_info_df = hdb_building_info.df[wanted_cols]
     hdb_building_info_df = hdb_building_info_df.rename(columns = {"address_postal_code": "geocoded_address"})
     hdb_building_info_df["geocoded_address"] = hdb_building_info_df["geocoded_address"].apply(lambda x: x.upper())
     print("Loaded and compiled HDB building information with shape: {}.".format(hdb_building_info.df.shape))
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
     # Combine both pieces of information together by overwriting the geocoded addresses.
     print("Building the updated geocoded addresses with the loaded HDB building information.")
-    df = hdb_building_info.df[["geometry", "address", "address_postal_code", "latitude", "longitude"]]
+    df = hdb_building_info.df[wanted_cols]
     df = df.rename(columns = {"address_postal_code": "geocoded_address"})
 
     df = pd.concat(
@@ -79,6 +79,6 @@ if __name__ == "__main__":
     print("Updated HDB address DataFrame shape: {}.".format(df.shape))
 
 
-    # Output combined information to disk.
+    # Output combined information to disk as a GeoJSON file.
     print("Saving updated HDB addresses to {}.".format(processed_data_dir / hdb_addresses_json_file))
     df.to_file(processed_data_dir / hdb_addresses_json_file, driver="GeoJSON") 
