@@ -49,6 +49,9 @@ if __name__ == "__main__":
     csv_data.load_csv_files()
     csv_data.compile_csv_data()
     csv_data.process_csv_data()
+    repaired_rows = csv_data.check_and_repair_datetimes()
+    if len(repaired_rows) > 0:
+        print("    Repaired datetimes at rows {}.".format(repaired_rows))
     print("    Loaded and compiled resale flat prices CSV data with shape {}.".format(csv_data.df.shape))
 
     # Optional: load and process rent CSV data published on:
@@ -58,6 +61,9 @@ if __name__ == "__main__":
         rent_csv_data = RentCsvData(rent_data_csv_file)
         rent_csv_data.load_csv_file()
         rent_csv_data.process_csv_data()
+        repaired_rows = rent_csv_data.check_and_repair_datetimes()
+        if len(repaired_rows) > 0:
+            print("    Repaired datetimes at rows {}.".format(repaired_rows))
         print("    Loaded and compiled rent CSV data with shape {}.".format(rent_csv_data.df.shape))
 
 

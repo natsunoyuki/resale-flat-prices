@@ -12,7 +12,7 @@ CURRENT_YEAR = datetime.today().year
 def clean_month(df):
     df["datetime"] = df["month"].apply(
         lambda x: np.datetime64(
-            "{}-{:02d}".format(int(x.split("-")[0]), int(x.split("-")[1]))
+            "{}-{:02d}".format(int(x.split("-")[0]), int(x.split("-")[1])), "M",
         ),
     )
     #df["year_month"] = df["month"].copy()
@@ -314,7 +314,7 @@ def clean_rent_approval_date(df):
     df = df.rename(columns={"rent_approval_date": "month"})
     df["datetime"] = df["month"].apply(
         lambda x: np.datetime64(
-            "{}-{:02d}".format(int(x.split("-")[0]), int(x.split("-")[1]))
+            "{}-{:02d}".format(int(x.split("-")[0]), int(x.split("-")[1])), "M",
         ),
     )
     #df["month"] = df["rent_approval_date"].copy()
