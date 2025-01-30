@@ -13,12 +13,14 @@ from sklearn.ensemble import RandomForestRegressor
 from property_prices.resale_flat_data.resale_flat_data import ResaleFlatData
 from property_prices.resale_flat_data.rent_prices_data import RentPricesData
 
+CONFIG_FILE = "resale_rent_price_indexing.yml"
+
 
 if __name__ == "__main__":
     tools_dir = Path(__file__).parent
     main_dir = tools_dir.parent
 
-    with open(tools_dir / "price_indexing.yml", "r") as f:
+    with open(tools_dir / CONFIG_FILE, "r") as f:
         config = yaml.safe_load(f)
 
     # Data directories and files.
