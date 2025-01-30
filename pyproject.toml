@@ -14,5 +14,6 @@ requires = [
     "h3", 
     "geopandas",
     "contextily",
+    "pyarrow",
 ]
 build-backend = "setuptools.build_meta"

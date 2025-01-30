@@ -3,15 +3,16 @@
 # Singapore Property Resale and Rent Prices
 Analysis and predictive modelling for Singapore property resale prices and rents.
 
-Main data sources for resale prices and rents:
-1. Resale flat prices: https://data.gov.sg/collections/189/view.
-2. Flat rent prices: https://data.gov.sg/datasets/d_c9f57187485a850908655db0e8cfe651/view
+Main data sources for HDB apartment resale prices and rents:
+1. HDB apartment resale prices: https://data.gov.sg/collections/189/view.
+2. HDB apartment rent prices: https://data.gov.sg/datasets/d_c9f57187485a850908655db0e8cfe651/view
 
-Additional data sources for handling geocoded addresses:
+Additional data sources for handling geocoded HDB apartment addresses:
 3. HDB existing building information: https://data.gov.sg/collections/2033/view
 4. LTA road name road code information: https://www.lta.gov.sg/content/dam/ltagov/industry_innovations/industry_matters/development_construction_resources/Street_Work_Proposals/Standards_and_Specifications/GIS_Data_Hub/road_name_road_code_jan2024.xlsx
 
-This repository is currently a work in progress.
+Main data sources for private property prices:
+1. https://www.ura.gov.sg/property-market-information/pmiResidentialTransactionSearch
 
 # Installation
 Clone this repository, and install locally with a virtual environment.
@@ -44,8 +45,8 @@ Before any form of analysis or visualization can be performed, the raw resale an
 
 Place the downloaded raw CSV files under `data/ResaleFlatPrices`. Additionally, if pre-existing geocoded addresses already exist, they should be placed in the GeoJSON file `data/processed_data/hdb_addresses.json`.
 
-Then, specify the pipeline configuration in `tools/hdb_data_pipeline.yml`, and run the script:
+Then, specify the pipeline configuration in `tools/resale_rent_data_pipeline.yml`, and run the script:
 ```bash
-python3 tools/hdb_data_pipeline.py
+python3 tools/resale_rent_data_pipeline.py
 ```
 This script loads the raw CSV files and processes their contents, as well as any pre-existing geocoded addresses. New addresses are geocoded using the Nominatim geocoder, and added to `hdb_addresses.json`. The processed CSV contents are then merged with the geocoded addresses, and the processed resale prices and rent data are saved to `data/processed_data/resale-flat-prices.parquet` and `data/processed_data/rent-prices.parquet` respectively. These files can be used for further resale and rent price analyses.
