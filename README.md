@@ -41,12 +41,16 @@ python3 tools/hdb_building_info.py
 This script loads the GeoJSON and Excel files, processes their contents, and saves them to the GeoJSON file `data/processed_data/hdb_addresses.json`. This GeoJSON file will be used in the resale and rent data processing pipelie for geocoding HDB street coordinates.
 
 ## Raw Resale and Rent Data Processing Pipeline
-Before any form of analysis or visualization can be performed, the raw resale and rent prices data must be cleaned and combined with other useful data, such as the HDB building information (geocoded address information). The script `tools/raw_data_pipeline.py` performs this function.
-
-Place the downloaded raw CSV files under `data/ResaleFlatPrices`. Additionally, if pre-existing geocoded addresses already exist, they should be placed in the GeoJSON file `data/processed_data/hdb_addresses.json`.
-
-Then, specify the pipeline configuration in `tools/resale_rent_data_pipeline.yml`, and run the script:
+Before any form of analysis or visualization can be performed, the raw resale and rent prices data must be cleaned and combined with other useful data, such as the HDB building information (geocoded address information). The script `tools/raw_data_pipeline.py` performs this function. Place the downloaded raw CSV files under `data/ResaleFlatPrices`. Additionally, if pre-existing geocoded addresses already exist, they should be placed in the GeoJSON file `data/processed_data/hdb_addresses.json`. Then, specify the pipeline configuration in `tools/resale_rent_data_pipeline.yml`, and run the script:
 ```bash
 python3 tools/resale_rent_data_pipeline.py
 ```
 This script loads the raw CSV files and processes their contents, as well as any pre-existing geocoded addresses. New addresses are geocoded using the Nominatim geocoder, and added to `hdb_addresses.json`. The processed CSV contents are then merged with the geocoded addresses, and the processed resale prices and rent data are saved to `data/processed_data/resale-flat-prices.parquet` and `data/processed_data/rent-prices.parquet` respectively. These files can be used for further resale and rent price analyses.
+
+## Resale and Rent Price Indexing
+Price indexing must be done across time in order to update historical prices to the latest values. First run the resale and rent data processing pipeline above to generate the processed data files `data/processed_data/resale-flat-prices.parquet` and `data/processed_data/rent-prices.parquet`. Then specify the configurations in `tools/resale_rent_price_indexing.yml`, and run the script:
+
+```bash
+python3 tools/resale_rent_price_indexing.py
+```
+The script loads the parquet files, and builds regression models of the median price over time for each HDB town. The regression models are then used to build a price index of all historical prices with respect to the most recent date, and the indexed prices are output to `data/processed_data/resale-flat-prices-indexed.parquet` and `data/processed_data/rent-prices-indexed.parquet`.
