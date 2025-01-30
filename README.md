@@ -1,7 +1,7 @@
 <div align = "center"><img src = "assets/resale-flat-prices.jpg" width = "640"></div>
 
-# Resale Flat Prices
-Analysis and predictive modelling for Singapore resale flat prices and rents.
+# Singapore Property Resale and Rent Prices
+Analysis and predictive modelling for Singapore property resale prices and rents.
 
 Main data sources for resale prices and rents:
 1. Resale flat prices: https://data.gov.sg/collections/189/view.
@@ -16,8 +16,8 @@ This repository is currently a work in progress.
 # Installation
 Clone this repository, and install locally with a virtual environment.
 ```bash
-git clone https://github.com/natsunoyuki/resale-flat-prices
-cd resale-flat-prices
+git clone https://github.com/natsunoyuki/sg-property-prices
+cd sg-property-prices
 
 python3 -m venv venv
 source venv/bin/activate
@@ -44,8 +44,8 @@ Before any form of analysis or visualization can be performed, the raw resale an
 
 Place the downloaded raw CSV files under `data/ResaleFlatPrices`. Additionally, if pre-existing geocoded addresses already exist, they should be placed in the GeoJSON file `data/processed_data/hdb_addresses.json`.
 
-Then, specify the pipeline configuration in `tools/raw_data_pipeline.yml`, and run the script:
+Then, specify the pipeline configuration in `tools/hdb_data_pipeline.yml`, and run the script:
 ```bash
-python3 tools/raw_data_pipeline.py
+python3 tools/hdb_data_pipeline.py
 ```
 This script loads the raw CSV files and processes their contents, as well as any pre-existing geocoded addresses. New addresses are geocoded using the Nominatim geocoder, and added to `hdb_addresses.json`. The processed CSV contents are then merged with the geocoded addresses, and the processed resale prices and rent data are saved to `data/processed_data/resale-flat-prices.parquet` and `data/processed_data/rent-prices.parquet` respectively. These files can be used for further resale and rent price analyses.

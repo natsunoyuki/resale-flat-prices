@@ -14,7 +14,7 @@ from property_prices.csv_data.rent_csv_data import RentCsvData
 from property_prices.geocode.hdb_addresses import HDBAddresses
 
 
-CONFIG_FILE = "raw_data_pipeline.yml"
+CONFIG_FILE = "hdb_data_pipeline.yml"
 
 
 if __name__ == "__main__":
