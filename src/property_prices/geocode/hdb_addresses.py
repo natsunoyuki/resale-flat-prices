@@ -6,8 +6,8 @@ from shapely import Point
 
 
 # Local imports.
-from resale_flat_prices.geocode.nominatim_geocoder import NominatimGeocoder
-from resale_flat_prices.geocode.lat_lon_constants import LOCS
+from property_prices.geocode.nominatim_geocoder import NominatimGeocoder
+from property_prices.geocode.lat_lon_constants import LOCS
 
 
 GEOCODING_COUNTRY_CODES = {

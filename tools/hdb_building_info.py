@@ -8,7 +8,7 @@ import geopandas
 import pandas as pd
 
 
-from resale_flat_prices.hdb_building_info.hdb_building_info import HDBBuildingInfo
+from property_prices.hdb_building_info.hdb_building_info import HDBBuildingInfo
 
 
 CONFIG_FILE = "hdb_building_info.yml"

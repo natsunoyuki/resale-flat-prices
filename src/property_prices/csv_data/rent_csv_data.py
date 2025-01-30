@@ -6,7 +6,7 @@ import geopandas
 import numpy as np
 
 # Local imports.
-from resale_flat_prices.csv_data.data_processor import RentDataProcessor
+from property_prices.csv_data.data_processor import RentDataProcessor
 
 # HDB rent data records start from 2021.
 START_YEAR = np.datetime64("2021-01")

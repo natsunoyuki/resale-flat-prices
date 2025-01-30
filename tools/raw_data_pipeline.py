@@ -9,9 +9,9 @@ import geopandas
 
 
 # Local imports.
-from resale_flat_prices.csv_data.resale_csv_data import ResaleCsvData
-from resale_flat_prices.csv_data.rent_csv_data import RentCsvData
-from resale_flat_prices.geocode.hdb_addresses import HDBAddresses
+from property_prices.csv_data.resale_csv_data import ResaleCsvData
+from property_prices.csv_data.rent_csv_data import RentCsvData
+from property_prices.geocode.hdb_addresses import HDBAddresses
 
 
 CONFIG_FILE = "raw_data_pipeline.yml"

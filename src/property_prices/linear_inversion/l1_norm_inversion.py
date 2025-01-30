@@ -2,7 +2,7 @@ import numpy as np
 from scipy.optimize import linprog
 
 # Local imports.
-from resale_flat_prices.linear_inversion.least_squares import least_squares
+from property_prices.linear_inversion.least_squares import least_squares
 
 
 def l1_norm_inversion(G, d, sd = None):

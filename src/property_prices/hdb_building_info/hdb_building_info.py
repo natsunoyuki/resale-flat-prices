@@ -7,8 +7,8 @@ from pathlib import Path
 import json
 import geopandas
 
-from resale_flat_prices.excel_data.road_name_road_code_excel_data import RoadNameRoadCodeExcel
-from resale_flat_prices.geojson_data.hdb_existing_building_geojson_data import HDBExistingBuildingGeojson
+from property_prices.excel_data.road_name_road_code_excel_data import RoadNameRoadCodeExcel
+from property_prices.geojson_data.hdb_existing_building_geojson_data import HDBExistingBuildingGeojson
 
 
 COUNTRY = "SINGAPORE"

@@ -5,7 +5,7 @@ import numpy as np
 
 
 # Local imports.
-from resale_flat_prices.h3_utils.h3_utils import point_to_h3, h3_to_geometry
+from property_prices.h3_utils.h3_utils import point_to_h3, h3_to_geometry
 
 
 class FlatDataBase:

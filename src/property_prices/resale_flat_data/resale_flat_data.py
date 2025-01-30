@@ -1,7 +1,7 @@
 # This class represents the processed, geocoded and merged resale flat data, ready for analyses.
 
 # Local imports.
-from resale_flat_prices.resale_flat_data.flat_data_base import FlatDataBase 
+from property_prices.resale_flat_data.flat_data_base import FlatDataBase 
 
 
 COLUMNS = [

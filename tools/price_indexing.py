@@ -10,8 +10,8 @@ import pandas as pd
 from sklearn.metrics import r2_score
 from sklearn.ensemble import RandomForestRegressor
 
-from resale_flat_prices.resale_flat_data.resale_flat_data import ResaleFlatData
-from resale_flat_prices.resale_flat_data.rent_prices_data import RentPricesData
+from property_prices.resale_flat_data.resale_flat_data import ResaleFlatData
+from property_prices.resale_flat_data.rent_prices_data import RentPricesData
 
 
 if __name__ == "__main__":

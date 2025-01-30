@@ -8,9 +8,9 @@ import pandas as pd
 import geopandas
 
 # Local imports.
-from resale_flat_prices.geocode.nominatim_geocoder import NominatimGeocoder
-from resale_flat_prices.geocode.lat_lon_constants import LOCS
-from resale_flat_prices.h3_utils.h3_utils import latlon_to_h3, h3_to_geometry
+from property_prices.geocode.nominatim_geocoder import NominatimGeocoder
+from property_prices.geocode.lat_lon_constants import LOCS
+from property_prices.h3_utils.h3_utils import latlon_to_h3, h3_to_geometry
 
 
 GEOCODING_COUNTRY_CODES = {

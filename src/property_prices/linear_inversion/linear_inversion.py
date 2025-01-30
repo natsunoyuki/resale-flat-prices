@@ -1,8 +1,8 @@
 import numpy as np
 
 # Local imports.
-from resale_flat_prices.linear_inversion.least_squares import least_squares, minimum_length
-from resale_flat_prices.linear_inversion.l1_norm_inversion import l1_norm_inversion
+from property_prices.linear_inversion.least_squares import least_squares, minimum_length
+from property_prices.linear_inversion.l1_norm_inversion import l1_norm_inversion
 
 
 class LinearInversion:
