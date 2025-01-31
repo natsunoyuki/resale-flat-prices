@@ -16,8 +16,11 @@ COLUMNS = [
 
 
 class PrivateCsvData:
-    def __init__(self, file_name: Path, wanted_columns = "default"):
+    def __init__(self, data_dir: Path, file_name: Path = None, wanted_columns = "default"):
+        self.data_dir = data_dir
         self.file_name = file_name
+
+        self.csv_data_list = []
 
         self.wanted_columns = wanted_columns
         if self.wanted_columns is not None and self.wanted_columns == "default":
@@ -27,7 +30,19 @@ class PrivateCsvData:
         self.data_processor = PrivateDataProcessor()
 
 
-    def load_csv_file(self, file_name = None):
+    def load_csv_files(self, data_dir: Path=None):
+        if data_dir is None:
+            data_dir = self.data_dir
+
+        for f in data_dir.iterdir():
+            if f.suffix == ".csv":
+                self.csv_data_list.append(pd.read_csv(f))
+
+        df = pd.concat(self.csv_data_list)
+        self.df = geopandas.GeoDataFrame(df)
+
+
+    def load_csv_file(self, file_name=None):
         if file_name is None:
             file_name = self.file_name
 
