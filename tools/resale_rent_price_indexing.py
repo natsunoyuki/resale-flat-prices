@@ -126,7 +126,7 @@ if __name__ == "__main__":
     y_preds = {}
     scores = {}
     for k in dfs.keys():
-        y = dfs[k]["price_per_sqft"].values
+        y = dfs[k][price_column].values
         X = dfs[k]["X"].values.reshape(-1, 1)
         if len(y) >= low_data_threshold:
             models[k] = RandomForestRegressor(
