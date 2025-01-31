@@ -11,7 +11,7 @@ import geopandas
 # Local imports.
 from property_prices.csv_data.resale_csv_data import ResaleCsvData
 from property_prices.csv_data.rent_csv_data import RentCsvData
-from property_prices.geocode.hdb_addresses import HDBAddresses
+from property_prices.geocode.geocoded_addresses import GeocodedAddresses
 
 
 CONFIG_FILE = "resale_rent_data_pipeline.yml"
@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
     # Load geocoded addresses.
     print("Loading geocoded HDB addresses from {}.".format(processed_data_dir / hdb_addresses_json_file))
-    hdb_addresses = HDBAddresses()
+    hdb_addresses = GeocodedAddresses()
     hdb_addresses.read_json(processed_data_dir / hdb_addresses_json_file)
     print("    Loaded {} existing geocoded addresses.".format(len(hdb_addresses.df)))
 
