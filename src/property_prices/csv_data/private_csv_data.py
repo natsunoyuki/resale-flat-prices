@@ -36,10 +36,12 @@ class PrivateCsvData:
 
         for f in data_dir.iterdir():
             if f.suffix == ".csv":
-                self.csv_data_list.append(pd.read_csv(f))
+                try:
+                    self.csv_data_list.append(pd.read_csv(f))
+                except UnicodeDecodeError:
+                    self.csv_data_list.append(pd.read_csv(f, encoding="ISO-8859-1"))
 
-        df = pd.concat(self.csv_data_list)
-        self.df = geopandas.GeoDataFrame(df)
+        self.df = geopandas.GeoDataFrame(pd.concat(self.csv_data_list))
 
 
     def load_csv_file(self, file_name=None):

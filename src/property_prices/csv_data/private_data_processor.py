@@ -56,7 +56,9 @@ class PrivateDataProcessor:
         self.df["transacted_price"] = self.df["transacted_price"].apply(lambda x: int(x.replace(",", "")))
 
     def clean_area_sqft(self):
-        self.df["area_sqft"] = self.df["area_sqft"].apply(lambda x: float(x.replace(",", "")))
+        self.df["area_sqft"] = self.df["area_sqft"].apply(
+            lambda x: float(x.replace(",", "") if type(x) == str else float(x))
+        )
     
     def clean_unit_price_psf(self):
        self.df["unit_price_psf"] = self.df["unit_price_psf"].apply(lambda x: int(x.replace(",", "")))
@@ -82,7 +84,9 @@ class PrivateDataProcessor:
         self.df["type_of_area"] = self.df["type_of_area"].apply(lambda x: x.upper())
     
     def clean_area_sqm(self):
-        self.df["area_sqm"] = self.df["area_sqm"].apply(lambda x: float(x.replace(",", "")))
+        self.df["area_sqm"] = self.df["area_sqm"].apply(
+            lambda x: float(x.replace(",", "") if type(x) == str else float(x))
+        )
     
     def clean_unit_price_psm(self):
         self.df["unit_price_psm"] = self.df["unit_price_psm"].apply(lambda x: int(x.replace(",", "")))
