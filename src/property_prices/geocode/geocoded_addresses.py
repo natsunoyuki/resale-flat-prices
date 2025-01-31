@@ -19,7 +19,9 @@ GEOCODING_COUNTRY_CODES = {
 class GeocodedAddresses:
     def __init__(self, geocoder_user_agent = "resale_flat_price_nominatim"):
         self.geocoder = NominatimGeocoder(geocoder_user_agent = geocoder_user_agent)
-        self.df = geopandas.GeoDataFrame()
+        self.df = geopandas.GeoDataFrame(
+            {"address": [], "geocoded_address": [], "latitude": [], "longitude": [], "geometry": []}
+        )
 
 
     def to_json(self, output_json_path: Path):
