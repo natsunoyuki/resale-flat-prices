@@ -17,10 +17,11 @@ GEOCODING_COUNTRY_CODES = {
 
 
 class GeocodedAddresses:
-    def __init__(self, geocoder_user_agent = "resale_flat_price_nominatim"):
+    def __init__(self, geocoder_user_agent="resale_flat_price_nominatim", crs="EPSG:4326"):
         self.geocoder = NominatimGeocoder(geocoder_user_agent = geocoder_user_agent)
         self.df = geopandas.GeoDataFrame(
-            {"address": [], "geocoded_address": [], "latitude": [], "longitude": [], "geometry": []}
+            {"address": [], "geocoded_address": [], "latitude": [], "longitude": [], "geometry": []},
+            crs=crs,
         )
 
 
@@ -90,3 +91,26 @@ class GeocodedAddresses:
     def get_all_geocoded_addresses(self):
         """Returns all unique geocoded addresses in the GeoDataFrame."""
         return set(self.df["address"].unique())
+
+
+    def manually_update_geocoded_address(
+        self, 
+        address_dict={
+            "address": None, "geocoded_address": None, "latitude": None, "longitude": None, "geometry": None,
+        },
+        force_update=False,
+    ):
+        address = address_dict.get("address", None)
+        if address is not None:
+            if address not in self.df["address"] or (address in self.df["address"] and force_update is True):
+                _df = geopandas.GeoDataFrame(
+                    {
+                        "address": [address_dict.get("address")],
+                        "geocoded_address": [address_dict.get("geocoded_address")],
+                        "latitude": [address_dict.get("latitude")],
+                        "longitude": [address_dict.get("longitude")],
+                        "geometry": [address_dict.get("geometry")],
+                    }, 
+                    crs=self.df.crs
+                )
+                self.df = pd.concat([self.df, _df]).reset_index(drop=True)
