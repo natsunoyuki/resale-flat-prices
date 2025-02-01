@@ -4,7 +4,7 @@ import pandas as pd
 import geopandas
 
 # Local imports.
-from property_prices.transaction_data.private_data_processor import PrivateDataProcessor
+from property_prices.transaction_csv_data.private_data_processor import PrivateDataProcessor
 
 
 COLUMNS = [

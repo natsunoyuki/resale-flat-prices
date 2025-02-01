@@ -9,8 +9,8 @@ import geopandas
 
 
 # Local imports.
-from property_prices.transaction_data.resale_csv_data import ResaleCsvData
-from property_prices.transaction_data.rent_csv_data import RentCsvData
+from property_prices.transaction_csv_data.resale_csv_data import ResaleCsvData
+from property_prices.transaction_csv_data.rent_csv_data import RentCsvData
 from property_prices.geocode.geocoded_addresses import GeocodedAddresses
 
 

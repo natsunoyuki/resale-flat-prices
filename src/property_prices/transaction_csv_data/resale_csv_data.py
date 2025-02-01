@@ -8,8 +8,8 @@ import geopandas
 import numpy as np
 
 # Local imports.
-from property_prices.transaction_data.resale_csv_file_data import ResaleCsvFileData
-from property_prices.transaction_data.data_processor import ResaleDataProcessor
+from property_prices.transaction_csv_data.resale_csv_file_data import ResaleCsvFileData
+from property_prices.transaction_csv_data.data_processor import ResaleDataProcessor
 
 
 # HDB resale data records start from 1990.
