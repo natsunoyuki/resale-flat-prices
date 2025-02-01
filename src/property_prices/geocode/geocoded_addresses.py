@@ -1,4 +1,5 @@
 import time
+import tqdm
 from pathlib import Path
 import pandas as pd
 import geopandas
@@ -6,7 +7,7 @@ from shapely import Point
 
 
 # Local imports.
-from property_prices.geocode.geopy_geocoder import NominatimGeocoder
+from property_prices.geocode.geopy_geocoder import NominatimGeocoder, ArcGISGeocoder, PhotonGeocoder
 from property_prices.geocode.lat_lon_constants import LOCS
 
 
@@ -17,8 +18,17 @@ GEOCODING_COUNTRY_CODES = {
 
 
 class GeocodedAddresses:
-    def __init__(self, geocoder_user_agent="resale_flat_price_nominatim", crs="EPSG:4326"):
-        self.geocoder = NominatimGeocoder(geocoder_user_agent = geocoder_user_agent)
+    def __init__(
+        self, geocoder_user_agent="resale_flat_price_nominatim", crs="EPSG:4326", geocoder="nominatim",
+    ):
+        # By default Nominatim will be used.
+        if geocoder.lower() == "arcgis":
+            self.geocoder = ArcGISGeocoder(geocoder_user_agent=geocoder_user_agent)
+        elif geocoder.lower() == "photon":
+            self.geocoder = PhotonGeocoder(geocoder_user_agent=geocoder_user_agent)
+        else:
+            self.geocoder = NominatimGeocoder(geocoder_user_agent=geocoder_user_agent)
+
         self.df = geopandas.GeoDataFrame(
             {"address": [], "geocoded_address": [], "latitude": [], "longitude": [], "geometry": []},
             crs=crs,
@@ -42,7 +52,7 @@ class GeocodedAddresses:
         """Updates the dict of geocoded addresses with a list of new addresses."""
         error_address_list = []
 
-        for address in address_list:
+        for address in tqdm.tqdm(address_list):
             address = address.upper()
             if address not in self.df["address"] or (address in self.df["address"] and force_update is True):
                 gcd = self.geocoder.geocode(address, country_codes=country_codes)
@@ -59,7 +69,7 @@ class GeocodedAddresses:
                     )
                     self.df = pd.concat([self.df, _df]).reset_index(drop=True)
                 else:
-                    print("An error occured with geocoding '{}'...".format(address))
+                    #print("An error occured with geocoding '{}'...".format(address))
                     error_address_list.append(address)
 
                 # Nominatim geocoder only allows 1 geocode query per second.
