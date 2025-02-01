@@ -15,5 +15,6 @@ requires = [
     "geopandas",
     "contextily",
     "pyarrow",
+    "tqdm",
 ]
 build-backend = "setuptools.build_meta"
